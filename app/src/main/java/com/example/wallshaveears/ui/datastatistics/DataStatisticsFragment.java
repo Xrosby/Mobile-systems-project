@@ -1,6 +1,8 @@
 package com.example.wallshaveears.ui.datastatistics;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +15,123 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.wallshaveears.R;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DataStatisticsFragment extends Fragment {
 
     private DataStatisticsViewModel dataStatisticsViewModel;
 
+
+    //Pie chart variables
+    private PieChart pieChart;
+    private PieDataSet pieDataSet;
+    private PieData pieData;
+    private List<PieEntry> pieEntries;
+
+
+    //Bar chart variables
+    private BarChart barChart;
+    private BarDataSet barDataSet;
+    private BarData barData;
+    private List<BarEntry> barEntries;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dataStatisticsViewModel =
                 ViewModelProviders.of(this).get(DataStatisticsViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_datastatistics, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
+
+
+        final TextView textView = root.findViewById(R.id.txt_graph_loading);
+
         dataStatisticsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
         });
+
+        pieChart = root.findViewById(R.id.pie_chart);
+        barChart = root.findViewById(R.id.bar_chart);
+
+
+        this.initPieChart();
+        this.initBarChart();
+        textView.setVisibility(View.GONE);
+
         return root;
     }
+
+
+    //_______ PIE Chart initialization _________ //
+
+    private void initPieChart() {
+        initiatePieDummyData();
+
+
+        pieDataSet = new PieDataSet(pieEntries, "Data Leak and The Monetizers");
+        pieData = new PieData(pieDataSet);
+        pieDataSet.setValueTextColor(Color.WHITE);
+        pieDataSet.setValueTextSize(20f);
+        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+    }
+
+    private void initiatePieDummyData() {
+        this.pieEntries = new ArrayList<>();
+        String[] buttholeCompanies = {"Google Admob", "Lytica", "AdColony", "IronSource", "FanBytes", "LeadBolt"};
+
+        pieEntries = new ArrayList<>();
+        for (int i = 0; i < buttholeCompanies.length; i++) {
+            int randomDataAmount = (int) (Math.random() * 500 + 1);
+            pieEntries.add(new PieEntry(randomDataAmount, buttholeCompanies[i]));
+        }
+    }
+
+
+    //________ BAR Chart Initialization ___________ //
+
+    private void initBarChart() {
+        initiateBarDummyData();
+
+        barDataSet = new BarDataSet(barEntries, "MB data leak pr day");
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        barChart.invalidate();
+
+    }
+
+    private void initiateBarDummyData() {
+        this.barEntries = new ArrayList<>();
+
+        for (int i = 1; i <= 10; i++) {
+            int randomDataAmount = (int) (Math.random() * 25 + 1);
+            barEntries.add(new BarEntry(i, randomDataAmount));
+        }
+
+
+    }
+
+
+}
+
+
+
 
     /*
     package com.example.graphtutorial;
@@ -204,4 +304,3 @@ public class MainActivity extends AppCompatActivity {
 }
 
      */
-}
