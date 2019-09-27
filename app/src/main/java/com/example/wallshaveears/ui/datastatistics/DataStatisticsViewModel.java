@@ -9,7 +9,6 @@ import com.github.mikephil.charting.charts.PieChart;
 public class DataStatisticsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
-    private PieChart pieChart;
 
     public DataStatisticsViewModel() {
         mText = new MutableLiveData<>();
