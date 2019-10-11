@@ -1,119 +1,138 @@
 package com.example.wallshaveears.ui.datastatistics.graphutil;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
-
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
-
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/**
+ * A PieGraph uses a list of GraphData
+ * to generate MPAndroidChart PieEntry objects
+ * and instantiating a MPAndroidChart PieChart
+ * with the accumulated data specified by
+ * the DataSource - either Recieved Data (RX) or
+ * Transmitted Data (TX)
+ */
 
-public class PieGraph implements Graph {
-
-    private List<GraphData> graphData;
+public class PieGraph extends Graph {
+    private Map<String, Long> appAndByteMap;
 
     private PieChart pieChart;
     private PieDataSet pieDataSet;
     private PieData pieData;
     private List<PieEntry> pieEntries;
+    private DataSource dataSource;
 
-    private Context context;
-
-    public PieGraph(List<GraphData> graphData, Context context) {
-        this.context = context;
-        this.graphData = graphData;
+    /**
+     * @param graphData  is the list of data for display in the generated PieChart
+     * @param dataSource defines whether the displayed data should be the apps
+     *                   Recieved Data (RX) or Transmitted Data (TX)
+     * @param context    is parsed to enable insert of the generated graph
+     */
+    public PieGraph(List<GraphData> graphData, DataSource dataSource, Context context) {
+        super(graphData, context);
+        this.dataSource = dataSource;
+        this.appAndByteMap = new HashMap<String, Long>();
         initChart();
     }
 
+
     @Override
     public void initEntries() {
+       this.sumData();
+       this.pieEntries = new ArrayList<>();
+       appAndByteMap.forEach((k, v) -> pieEntries.add(createEntry(k, v)));
+    }
 
-        if(pieEntries != null) {
-            Log.e("ENTRIES BEFORE: ", "" + this.pieEntries.size());
+    private PieEntry createEntry(String appName, long bytes) {
+        String label = this.createLabel(appName);
+        return new PieEntry(bytes, label);
+    }
+
+
+
+    private long firstTimeStamp(String appName) {
+        long firstTimeStamp = -1;
+        try {
+            firstTimeStamp = this.getGraphData()
+                    .stream()
+                    .filter(data -> data.getAppName() == appName)
+                    .collect(Collectors.toList())
+                    .stream()
+                    .min(Comparator.comparing(GraphData::getTimeStamp))
+                    .orElseThrow(NoSuchElementException::new).getTimeStamp();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
+        return firstTimeStamp;
+    }
 
-        this.pieEntries = this.graphData
-                .stream()
-                .map(data -> {
-                    return createEntry(data);
-                }).collect(Collectors.toList());
-
-        Log.e("ENTRIES AFTER: ", "" + this.pieEntries.size());
+    private String createLabel(String appName) {
+        long timeStamp = this.firstTimeStamp(appName);
+        String label = appName;
+        return label;
 
     }
 
-
-
-
-    public PieEntry createEntry(GraphData graphData) {
-
-        Log.e("GraphDATA: ", "" + graphData.getAppName() + " : " + graphData.getTransmittedBytes());
-
-
-        return new PieEntry(graphData.getTransmittedBytes(), graphData.getAppName());
-    }
-
+    /**
+     * Chart initiation with the specified parameters
+     * @valueTextSize() is set to fit with the application
+     * and should not be altered with
+     */
     @Override
     public void initChart() {
+
         this.initEntries();
-
-
-        this.pieChart = new PieChart(this.context);
-
+        this.pieChart = new PieChart(this.getContext());
         pieDataSet = new PieDataSet(pieEntries, "Data Leaks");
         pieData = new PieData(pieDataSet);
-        pieDataSet.setValueTextColor(Color.WHITE);
-        pieDataSet.setValueTextSize(20f);
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
-        Log.e("ENTRIES BEFORE SETTING DATA: ", "" + this.pieEntries.size());
-
+        GraphConfigurations.setChartConfigurations(pieChart, pieDataSet);
+        pieChart.getLegend().setTextColor(GraphConfigurations.labelColor);
         pieChart.setData(pieData);
-
+        this.pieChart.invalidate();
     }
 
+    /**
+     * Depending on the DataSource specified
+     * all RX or TX bytes will be summed up and linked
+     * to the source (Name of the application)
+     */
+    private void sumData() {
+        if(this.dataSource == DataSource.RX) {
+            this.appAndByteMap = this.getGraphData()
+                    .stream()
+                    .collect(
+                            Collectors.groupingBy(
+                                    GraphData::getAppName,
+                                    Collectors.summingLong(
+                                            GraphData::getReceivedBytes)));
+        }else {
+            this.appAndByteMap = this.getGraphData()
+                    .stream()
+                    .collect(
+                            Collectors.groupingBy(
+                                    GraphData::getAppName,
+                                    Collectors.summingLong(
+                                            GraphData::getTransmittedBytes)));
+        }
+    }
+
+    /**
+     * @return the finished and loaded PieGraph
+     * ready for insert into an activity
+     */
     @Override
     public PieChart getChart() {
-        this.pieChart.invalidate();
         return this.pieChart;
     }
 
 
-    /*
-     //_______ PIE Chart initialization _________ //
-
-    private void initPieChart() {
-        initiatePieDummyData();
-
-        pieDataSet = new PieDataSet(pieEntries, "Data Leak and The Monetizers");
-        pieData = new PieData(pieDataSet);
-        pieDataSet.setValueTextColor(Color.WHITE);
-        pieDataSet.setValueTextSize(20f);
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
-    }
-
-    private void initiatePieDummyData() {
-        this.pieEntries = new ArrayList<>();
-        String[] buttholeCompanies = {"Google Admob", "Lytica", "AdColony", "IronSource", "FanBytes", "LeadBolt"};
-
-        pieEntries = new ArrayList<>();
-        for (int i = 0; i < buttholeCompanies.length; i++) {
-            int randomDataAmount = (int) (Math.random() * 500 + 1);
-            pieEntries.add(new PieEntry(randomDataAmount, buttholeCompanies[i]));
-        }
-    }
-
-
-
-
-
-     */
 }
