@@ -11,7 +11,7 @@ public class GraphConfigurations {
 
     public final static int graphColor = Color.BLACK;
     public final static int[] colorTemplate = ColorTemplate.MATERIAL_COLORS;
-    public final static float graphValueTextSize = 20f;
+    public final static float graphValueTextSize = 10f;
     public final static int labelColor = Color.BLACK;
     public final static RelativeLayout.LayoutParams layoutParams =new RelativeLayout.
             LayoutParams(
@@ -21,7 +21,7 @@ public class GraphConfigurations {
     public static void setChartConfigurations(Chart chart, DataSet dataSet) {
         dataSet.setValueTextColor(GraphConfigurations.graphColor);
         dataSet.setValueTextSize(GraphConfigurations.graphValueTextSize);
-        dataSet.setColors(GraphConfigurations.colorTemplate);
+       dataSet.setColors(GraphConfigurations.colorTemplate);
         chart.setLayoutParams(GraphConfigurations.layoutParams);
 
     }

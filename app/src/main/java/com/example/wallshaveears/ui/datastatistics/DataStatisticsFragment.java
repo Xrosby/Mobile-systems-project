@@ -34,17 +34,9 @@ public class DataStatisticsFragment extends Fragment {
                 ViewModelProviders.of(this).get(DataStatisticsViewModel.class);
 
         View root = inflater.inflate(R.layout.fragment_datastatistics, container, false);
-        final TextView textView = root.findViewById(R.id.txt_graph_loading);
-
-        dataStatisticsViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
 
         this.initCharts(root);
-        textView.setVisibility(View.GONE);
+
 
         return root;
     }

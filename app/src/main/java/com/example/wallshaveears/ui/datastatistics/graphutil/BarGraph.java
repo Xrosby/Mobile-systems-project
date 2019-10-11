@@ -8,6 +8,7 @@ import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,36 +33,47 @@ public class BarGraph extends Graph {
     @Override
     public void initEntries() {
         this.barEntries = new ArrayList<>();
-        Log.e("APPDATA", this.appAndByteMap.toString());
         this.appAndByteMap.forEach((appName, bytes) -> {
+
             long recievedBytes = bytes[0];
             long transmittedBytes = bytes[1];
-            barEntries.add(new BarEntry(
-                    recievedBytes,
-                    transmittedBytes,
-                    appName));
+
+            Log.e("Adding entry: ", "" + "App: " + appName + "  - TX: " + transmittedBytes + " - RX: " + recievedBytes);
+
+            BarEntry entry = new BarEntry(
+                    0f, new float[]{recievedBytes, transmittedBytes});
+            entry.setData(appName);
+
+            barEntries.add(entry);
         });
+
+
     }
+
+
+
 
     @Override
     public void initChart() {
         this.initEntries();
         this.barChart = new HorizontalBarChart(this.getContext());
-
-        this.barEntries.forEach(entry ->  {
-           Log.e("ENTRY: ", entry.toString());
-        });
-
         barDataSet = new BarDataSet(barEntries, "Data flow");
+
+
         GraphConfigurations.setChartConfigurations(barChart, barDataSet);
+        barChart.setFitBars(true);
+
         barData = new BarData(barDataSet);
         barChart.setData(barData);
+
+        barDataSet.setStackLabels(new String[]{"Transmitted", "Recieved"});
+
         barChart.invalidate();
 
     }
 
     @Override
-    public BarChart getChart() {
+    public HorizontalBarChart getChart() {
         return this.barChart;
 
     }
@@ -71,16 +83,11 @@ public class BarGraph extends Graph {
                 this.getGraphData()
                         .stream()
                         .collect(Collectors
-                                .toMap(GraphData::getAppName, GraphData::getTransmittedBytes, (name, bytes) -> bytes));
+                                .groupingBy(GraphData::getAppName, Collectors.summingLong(GraphData::getTransmittedBytes)));
         final Map<String, Long> recievedBytes =
                 this.getGraphData()
                         .stream()
-                        .collect(Collectors.toMap(GraphData::getAppName, GraphData::getReceivedBytes, (name, bytes) -> bytes));
-
-
-        Log.e("TRANSMITTED: ", transmittedBytes.toString());
-        Log.e("RECIEVED: ", recievedBytes.toString());
-
+                        .collect(Collectors.groupingBy(GraphData::getAppName, Collectors.summingLong(GraphData::getReceivedBytes)));
 
         transmittedBytes.forEach((tk, tv) -> {
             recievedBytes.forEach((rk, rv) -> {
@@ -90,23 +97,6 @@ public class BarGraph extends Graph {
             });
 
         });
-        /*
-
-        for (Map.Entry<String, Long> transmitted : transmittedBytes.entrySet()) {
-
-
-            for (Map.Entry<String, Long> recieved : recievedBytes.entrySet()) {
-
-
-                if (transmitted.getKey().equals(recieved.getKey())) {
-                    this.appAndByteMap.put(recieved.getKey(), new Long[]{recieved.getValue(), transmitted.getValue()});
-                }
-
-
-            }
-
-        }
-        */
 
     }
 }

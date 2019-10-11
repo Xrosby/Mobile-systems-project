@@ -8,37 +8,14 @@
     <RelativeLayout
         android:id="@+id/bar_chart_container"
         android:layout_width="411dp"
-        android:layout_height="293dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_graph_loading"/>
-
-    <TextView
-        android:id="@+id/txt_graph_loading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="DET HER ER EN TEST"
-        app:layout_constraintBottom_toTopOf="@+id/bar_chart_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pie_chart_container" />
-
-    <RelativeLayout
-        android:id="@+id/pie_chart_container"
-        android:layout_width="411dp"
-        android:layout_height="286dp"
-        app:layout_constraintBottom_toTopOf="@+id/txt_graph_loading"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </RelativeLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
