@@ -1,4 +1,5 @@
 package com.example.wallshaveears.ui.datastatistics.graphutil;
+
 import android.content.Context;
 
 import com.example.wallshaveears.database.entities.Traffic;
@@ -9,13 +10,14 @@ import com.github.mikephil.charting.charts.PieChart;
 
 import java.util.List;
 
-public  class GraphBuilder {
+public class GraphBuilder {
 
     private Context context;
 
     public GraphBuilder(Context context) {
         this.context = context;
     }
+
     public Chart createGraph(GraphType graphType, List<Traffic> graphData) {
         Chart chart;
         switch (graphType) {
@@ -24,6 +26,9 @@ public  class GraphBuilder {
                 break;
             case BAR:
                 chart = createBarChart(graphData);
+                break;
+            case LINE:
+                chart = createLineChart(graphData);
                 break;
             default:
                 chart = null;
@@ -48,9 +53,6 @@ public  class GraphBuilder {
         LineChart lineChart = lineGraph.getChart();
         return lineChart;
     }
-
-
-
 
 
 }

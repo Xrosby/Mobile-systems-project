@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/bar_chart_container"
         android:layout_width="match_parent"
-        android:layout_height="301dp"
+        android:layout_height="357dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
@@ -19,10 +19,11 @@
     <RelativeLayout
         android:id="@+id/line_chart_container"
         android:layout_width="match_parent"
-        android:layout_height="334dp"
+        android:layout_height="371dp"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toTopOf="@+id/bar_chart_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

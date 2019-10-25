@@ -14,6 +14,7 @@ import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.ui.datastatistics.graphutil.GraphBuilder;
 import com.example.wallshaveears.ui.datastatistics.graphutil.GraphType;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.LineChart;
 
 import java.util.ArrayList;
 import java.sql.Date;
@@ -39,7 +40,7 @@ public class DataStatisticsFragment extends Fragment {
     private void initCharts(View root) {
         this.graphBuilder = new GraphBuilder(root.getContext());
         this.initBarChart(root);
-        // this.initBarChart(root);
+        this.initLineChart(root);
     }
 
     private void initPieChart(View root) {
@@ -48,133 +49,85 @@ public class DataStatisticsFragment extends Fragment {
 
     }
 
+    private void initLineChart(View root) {
+        List<Traffic> graphData = this.getDummyData();
+
+        LineChart lineChart = (LineChart) this.graphBuilder.createGraph(GraphType.LINE, graphData);
+        RelativeLayout lineChartContainer  = (RelativeLayout) root.findViewById(R.id.line_chart_container);
+        if(lineChart != null) {
+            lineChartContainer.addView(lineChart);
+        }
+    }
+
+
     private void initBarChart(View root) {
+        List<Traffic> graphData = this.getDummyData();
+
+        HorizontalBarChart barChart = (HorizontalBarChart) this.graphBuilder.createGraph(GraphType.BAR, graphData);
+        RelativeLayout barChartContainer = (RelativeLayout) root.findViewById(R.id.bar_chart_container);
+        if(barChart != null) {
+            barChartContainer.addView(barChart);
+        }
+    }
+
+    private List<Traffic> getDummyData() {
+
         // _______________________ DUMMY DATA FOR TESTING BARCHART __________________________________________________________________//
         List<Traffic> graphData = new ArrayList<>();
 
 
         Date date = new Date(1570781692);
+        long timeIncrement = 100000;
 
 
         graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
 
         date.setTime(1570781692);
 
-        graphData.add(new Traffic("Lasses Shady App", date, 5235, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
-        graphData.add(new Traffic("Lasses Shady App", date, 525, 23, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        graphData.add(new Traffic("Lasses Shady App", date, 735, 233, 101, 5, 5));
+        date.setTime(date.getTime() + timeIncrement);
+        graphData.add(new Traffic("Lasses Shady App", date, 321, 23, 101, 5, 5));
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
-        graphData.add(new Traffic("Lasses Shady App", date, 5325, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
-        graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5));
+        date.setTime(date.getTime() + timeIncrement);
+        graphData.add(new Traffic("Lasses Shady App", date, 125, 233, 101, 5, 5));
+        date.setTime(date.getTime() + timeIncrement);
+        graphData.add(new Traffic("Lasses Shady App", date, 73, 233, 101, 5, 5));
 
         date.setTime(1570781692);
 
         graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("Baloo", date, 25, 233, 1101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5));
 
         date.setTime(1570781692);
 
         graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 1101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("RobertAnalytics", date, 5215, 1133, 1301, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + 1000);
+        date.setTime(date.getTime() + timeIncrement);
         graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
-        /*
-        graphData.add(new GraphData(10, "FlappyBird", 23, 901, 1570781992));
-        graphData.add(new GraphData(10, "FlappyBird", 411, 11, 1570782292));
-        graphData.add(new GraphData(10, "FlappyBird", 612, 21, 1570782592));
-        graphData.add(new GraphData(10, "FlappyBird", 78, 981, 1570782892));
 
 
-
-        graphData.add(new GraphData(10, "Yahoo", 112, 533, 1570781692));
-        graphData.add(new GraphData(10, "Yahoo", 141, 23, 1570781992));
-        graphData.add(new GraphData(10, "Yahoo", 33, 51, 1570782292));
-        graphData.add(new GraphData(10, "Yahoo", 82, 61, 1570782592));
-        graphData.add(new GraphData(10, "Yahoo", 12, 67, 1570782892));
-
-
-         graphData.add(new GraphData(30, "Lasses ApS", 434, 1122, 1570781692));
-        graphData.add(new GraphData(30, "Lasses ApS", 434, 122, 1570781992));
-        graphData.add(new GraphData(30, "Lasses ApS", 434, 122, 1570782292));
-        graphData.add(new GraphData(30, "Lasses ApS", 434, 122, 1570782592));
-        graphData.add(new GraphData(30, "Lasses ApS", 434, 122, 1570782892));
-
-
-
-        graphData.add(new GraphData(10, "Baloo", 1321, 2033, 1570781692));
-        graphData.add(new GraphData(10, "Baloo", 431, 23, 1570781992));
-        graphData.add(new GraphData(10, "Baloo", 341, 51, 1570782292));
-        graphData.add(new GraphData(10, "Baloo", 1234, 61, 1570782592));
-        graphData.add(new GraphData(10, "Baloo", 122, 67, 1570782892));
-
-        graphData.add(new GraphData(10, "Gringos", 112, 1515, 1570781692));
-        graphData.add(new GraphData(10, "Gringos", 111, 1351, 1570781992));
-        graphData.add(new GraphData(10, "Gringos", 51, 3154, 1570782292));
-        graphData.add(new GraphData(10, "Gringos", 115, 1111, 1570782592));
-        graphData.add(new GraphData(10, "Gringos", 51, 155, 1570782892));
-
-
-        graphData.add(new GraphData(10, "Lasses Shady App", 292, 1133, 1570781692));
-        graphData.add(new GraphData(10, "Lasses Shady App", 451, 155, 1570781992));
-        graphData.add(new GraphData(10, "Lasses Shady App", 133, 166, 1570782292));
-        graphData.add(new GraphData(10, "Lasses Shady App", 812, 100, 1570782592));
-        graphData.add(new GraphData(10, "Lasses Shady App", 512, 11, 1570782892));
-
-        graphData.add(new GraphData(10, "RobertAnalyics", 299, 514, 1570781692));
-        graphData.add(new GraphData(10, "RobertAnalyics", 866, 615, 1570781992));
-        graphData.add(new GraphData(10, "RobertAnalyics", 733, 99, 1570782292));
-        graphData.add(new GraphData(10, "RobertAnalyics", 988, 1023, 1570782592));
-        graphData.add(new GraphData(10, "RobertAnalyics", 72, 511, 1570782892));
-
-
-        graphData.add(new GraphData(10, "Google", 233, 101, 1570781692));
-        graphData.add(new GraphData(10, "Google", 431, 564, 1570781992));
-        graphData.add(new GraphData(10, "Google", 33, 75, 1570782292));
-        graphData.add(new GraphData(10, "Google", 82, 211, 1570782592));
-        graphData.add(new GraphData(10, "Google", 319, 731, 1570782892));
-
-
-        graphData.add(new GraphData(20, "Facebook", 133, 228, 1570781692));
-        graphData.add(new GraphData(20, "Facebook", 133, 228, 1570781992));
-        graphData.add(new GraphData(20, "Facebook", 133, 228, 1570782292));
-        graphData.add(new GraphData(20, "Facebook", 133, 228, 1570782592));
-        graphData.add(new GraphData(20, "Facebook", 133, 228, 1570782892));
-
-         */
-
-
-
-
-
-
-        //________________________________________________________________________________________________________________________________//
-
-        HorizontalBarChart barChart = (HorizontalBarChart) this.graphBuilder.createGraph(GraphType.BAR, graphData);
-        RelativeLayout barChartContainer = (RelativeLayout) root.findViewById(R.id.bar_chart_container);
-        barChartContainer.addView(barChart);
+        return graphData;
     }
 }
 

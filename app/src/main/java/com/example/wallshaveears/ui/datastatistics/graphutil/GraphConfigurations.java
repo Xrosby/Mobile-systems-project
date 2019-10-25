@@ -6,7 +6,12 @@ import android.widget.RelativeLayout;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.DataSet;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
+import java.util.List;
 
 public class GraphConfigurations {
 
@@ -17,6 +22,9 @@ public class GraphConfigurations {
 
     //Pie chart configurations
     public final static int[] pieColorTemplate = ColorTemplate.VORDIPLOM_COLORS;
+
+    //Line chart configurations
+    public final static int[] lineColorTemplate = ColorTemplate.MATERIAL_COLORS;
 
     //Shared chart confingurations
     public final static int graphColor = Color.BLACK;
@@ -31,12 +39,12 @@ public class GraphConfigurations {
 
     public static void setBarChartConfigurations(Chart chart, DataSet dataSet) {
 
-        dataSet.setValueTextColor(GraphConfigurations.graphColor);
-        dataSet.setValueTextSize(GraphConfigurations.graphValueTextSize);
+        dataSet.setValueTextColor(graphColor);
+        dataSet.setValueTextSize(graphValueTextSize);
         dataSet.setColors(barColorTemplate);
         BarChart barChart = (BarChart) chart;
         barChart.setFitBars(true);
-        barChart.setLayoutParams(GraphConfigurations.layoutParams);
+        barChart.setLayoutParams(layoutParams);
 
     }
 
@@ -46,6 +54,15 @@ public class GraphConfigurations {
         dataSet.setColors(pieColorTemplate);
         chart.setLayoutParams(GraphConfigurations.layoutParams);
 
+    }
+
+    public static void setLineChartConfigurations(Chart chart, List<ILineDataSet> dataSets) {
+        dataSets.forEach(dataSet -> {
+            dataSet.setValueTextColor(graphColor);
+            dataSet.setValueTextSize(graphValueTextSize);
+            dataSet.setColor(15);
+        });
+        chart.setLayoutParams(GraphConfigurations.layoutParams);
     }
 
 }
