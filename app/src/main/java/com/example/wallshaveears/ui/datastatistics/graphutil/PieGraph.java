@@ -1,6 +1,8 @@
 package com.example.wallshaveears.ui.datastatistics.graphutil;
 
 import android.content.Context;
+
+import com.example.wallshaveears.database.entities.Traffic;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -14,7 +16,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
- * A PieGraph uses a list of GraphData
+ * A PieGraph uses a list of Traffic
  * to generate MPAndroidChart PieEntry objects
  * and instantiating a MPAndroidChart PieChart
  * with the accumulated data specified by
@@ -37,7 +39,7 @@ public class PieGraph extends Graph {
      *                   Recieved Data (RX) or Transmitted Data (TX)
      * @param context    is parsed to enable insert of the generated graph
      */
-    public PieGraph(List<GraphData> graphData, DataSource dataSource, Context context) {
+    public PieGraph(List<Traffic> graphData, DataSource dataSource, Context context) {
         super(graphData, context);
         this.dataSource = dataSource;
         this.appAndByteMap = new HashMap<String, Long>();
@@ -67,8 +69,8 @@ public class PieGraph extends Graph {
                     .filter(data -> data.getAppName() == appName)
                     .collect(Collectors.toList())
                     .stream()
-                    .min(Comparator.comparing(GraphData::getTimeStamp))
-                    .orElseThrow(NoSuchElementException::new).getTimeStamp();
+                    .min(Comparator.comparing(Traffic::getTimestamp))
+                    .orElseThrow(NoSuchElementException::new).getTimestamp().getTime();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -111,17 +113,17 @@ public class PieGraph extends Graph {
                     .stream()
                     .collect(
                             Collectors.groupingBy(
-                                    GraphData::getAppName,
+                                    Traffic::getAppName,
                                     Collectors.summingLong(
-                                            GraphData::getReceivedBytes)));
+                                            Traffic::getRxBytes)));
         }else {
             this.appAndByteMap = this.getGraphData()
                     .stream()
                     .collect(
                             Collectors.groupingBy(
-                                    GraphData::getAppName,
+                                    Traffic::getAppName,
                                     Collectors.summingLong(
-                                            GraphData::getTransmittedBytes)));
+                                            Traffic::getTxBytes)));
         }
     }
 

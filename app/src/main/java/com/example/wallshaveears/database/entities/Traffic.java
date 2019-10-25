@@ -27,7 +27,10 @@ public class Traffic {
     private int id;
 
     //TODO: add to database
+    @ColumnInfo(name = "app_name")
     private String appName;
+
+
 
     @ColumnInfo(name = "timestamp")
     private Date timestamp;
@@ -47,15 +50,20 @@ public class Traffic {
     @ColumnInfo(name = "type_id")
     private int typeId;
 
-    public Traffic(Date timestamp, long rxBytes, long txBytes, long bucketExp, int appUid, int typeId) {
+    public Traffic(String appName ,Date timestamp, long rxBytes, long txBytes, long bucketExp, int appUid, int typeId) {
         this.timestamp = timestamp;
         this.rxBytes = rxBytes;
         this.txBytes = txBytes;
         this.bucketExp = bucketExp;
         this.appUid = appUid;
         this.typeId = typeId;
+        this.appName = appName;
     }
 
+
+    public String getAppName() {
+        return appName;
+    }
     public void setId(int id) {
         this.id = id;
     }

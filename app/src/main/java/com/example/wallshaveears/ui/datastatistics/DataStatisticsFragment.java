@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.wallshaveears.R;
+import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.ui.datastatistics.graphutil.GraphBuilder;
-import com.example.wallshaveears.ui.datastatistics.graphutil.GraphData;
 import com.example.wallshaveears.ui.datastatistics.graphutil.GraphType;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 public class DataStatisticsFragment extends Fragment {
@@ -50,10 +51,39 @@ public class DataStatisticsFragment extends Fragment {
 
     private void initBarChart(View root) {
         // _______________________ DUMMY DATA FOR TESTING BARCHART __________________________________________________________________//
-        List<GraphData> graphData = new ArrayList<>();
+        List<Traffic> graphData = new ArrayList<>();
 
 
-        graphData.add(new GraphData(10, "FlappyBird", 233, 101, 1570781692));
+        Date date = new Date(1570781692);
+
+
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
+
+
+        graphData.add(new Traffic("Lasses Shady App", date, 5235, 233, 101, 5, 5));
+        graphData.add(new Traffic("Lasses Shady App", date, 525, 23, 101, 5, 5));
+        graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("Lasses Shady App", date, 5325, 233, 101, 5, 5));
+        graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5));
+
+
+        graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5));
+        graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("Baloo", date, 25, 233, 1101, 5, 5));
+        graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5));
+        graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5));
+
+
+        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 1101, 5, 5));
+        graphData.add(new Traffic("RobertAnalytics", date, 5215, 1133, 1301, 5, 5));
+        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
+        /*
         graphData.add(new GraphData(10, "FlappyBird", 23, 901, 1570781992));
         graphData.add(new GraphData(10, "FlappyBird", 411, 11, 1570782292));
         graphData.add(new GraphData(10, "FlappyBird", 612, 21, 1570782592));
@@ -114,6 +144,8 @@ public class DataStatisticsFragment extends Fragment {
         graphData.add(new GraphData(20, "Facebook", 133, 228, 1570782292));
         graphData.add(new GraphData(20, "Facebook", 133, 228, 1570782592));
         graphData.add(new GraphData(20, "Facebook", 133, 228, 1570782892));
+
+         */
 
 
 

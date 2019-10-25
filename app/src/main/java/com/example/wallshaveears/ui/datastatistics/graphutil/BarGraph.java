@@ -3,6 +3,7 @@ package com.example.wallshaveears.ui.datastatistics.graphutil;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.wallshaveears.database.entities.Traffic;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -29,7 +30,7 @@ public class BarGraph extends Graph {
     private List<BarEntry> barEntries;
     private List<String> labelList;
 
-    public BarGraph(List<GraphData> graphData, Context context) {
+    public BarGraph(List<Traffic> graphData, Context context) {
         super(graphData, context);
         this.prepareData();
         this.initChart();
@@ -113,14 +114,14 @@ public class BarGraph extends Graph {
         Map<String, Long> transmittedBytes = this.getGraphData()
                 .stream()
                 .collect(Collectors
-                        .groupingBy(GraphData::getAppName, Collectors.summingLong(GraphData::getTransmittedBytes)));
+                        .groupingBy(Traffic::getAppName, Collectors.summingLong(Traffic::getTxBytes)));
         return transmittedBytes;
     }
 
     private Map<String, Long> sumRecievedBytes() {
         Map<String, Long> recievedBytes = this.getGraphData()
                 .stream()
-                .collect(Collectors.groupingBy(GraphData::getAppName, Collectors.summingLong(GraphData::getReceivedBytes)));
+                .collect(Collectors.groupingBy(Traffic::getAppName, Collectors.summingLong(Traffic::getRxBytes)));
         return recievedBytes;
     }
 

@@ -1,13 +1,6 @@
 package com.example.wallshaveears;
 
-import com.example.wallshaveears.ui.datastatistics.graphutil.DataSource;
-import com.example.wallshaveears.ui.datastatistics.graphutil.GraphData;
-import com.example.wallshaveears.ui.datastatistics.graphutil.PieGraph;
-
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
