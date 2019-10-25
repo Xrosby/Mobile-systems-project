@@ -94,7 +94,7 @@ public class PieGraph extends Graph {
         this.pieChart = new PieChart(this.getContext());
         pieDataSet = new PieDataSet(pieEntries, "Data Leaks");
         pieData = new PieData(pieDataSet);
-        GraphConfigurations.setChartConfigurations(pieChart, pieDataSet);
+        GraphConfigurations.setPieChartConfigurations(pieChart, pieDataSet);
         pieChart.getLegend().setTextColor(GraphConfigurations.labelColor);
         pieChart.setData(pieData);
         this.pieChart.invalidate();
