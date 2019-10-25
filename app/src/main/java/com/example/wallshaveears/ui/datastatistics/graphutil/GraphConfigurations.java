@@ -60,7 +60,6 @@ public class GraphConfigurations {
         dataSets.forEach(dataSet -> {
             dataSet.setValueTextColor(graphColor);
             dataSet.setValueTextSize(graphValueTextSize);
-            dataSet.setColor(15);
         });
         chart.setLayoutParams(GraphConfigurations.layoutParams);
     }
