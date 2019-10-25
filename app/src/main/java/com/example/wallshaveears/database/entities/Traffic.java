@@ -26,6 +26,9 @@ public class Traffic {
     @ColumnInfo(name = "id")
     private int id;
 
+    //TODO: add to database
+    private String appName;
+
     @ColumnInfo(name = "timestamp")
     private Date timestamp;
 
