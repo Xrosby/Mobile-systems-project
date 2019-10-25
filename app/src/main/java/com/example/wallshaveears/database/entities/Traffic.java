@@ -25,12 +25,9 @@ public class Traffic {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
-
-    //TODO: add to database
+    
     @ColumnInfo(name = "app_name")
     private String appName;
-
-
 
     @ColumnInfo(name = "timestamp")
     private Date timestamp;
@@ -60,10 +57,10 @@ public class Traffic {
         this.appName = appName;
     }
 
-
     public String getAppName() {
         return appName;
     }
+
     public void setId(int id) {
         this.id = id;
     }
