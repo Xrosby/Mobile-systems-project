@@ -18,7 +18,7 @@ public class DataFetcher
 {
     private Context context;
     private long timeBeganFetching = 0;
-    private final long noBucketAvailable = 0;
+    private final long NO_BUCKET_AVAILABLE = 0;
 
     public DataFetcher(Context context)
     {
@@ -74,7 +74,7 @@ public class DataFetcher
             {
                 stats.getNextBucket(bucket);
             }
-            if (bucket.getEndTimeStamp() != noBucketAvailable)
+            if (bucket.getEndTimeStamp() != NO_BUCKET_AVAILABLE)
             {
                 extractDataFromBucket(listOfNetworkData, resolve, bucket);
             }
