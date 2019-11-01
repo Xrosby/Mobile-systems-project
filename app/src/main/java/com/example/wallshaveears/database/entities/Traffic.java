@@ -62,6 +62,11 @@ public class Traffic {
         this.typeId = typeId;
     }
 
+    public Traffic()
+    {
+        
+    }
+
     public String getAppName() {
         return appName;
     }
