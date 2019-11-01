@@ -13,27 +13,30 @@ import java.sql.Date;
                 @ForeignKey(entity = NetworkType.class,
                         parentColumns = "id",
                         childColumns = "type_id",
-                        onDelete = ForeignKey.NO_ACTION),
-
-                @ForeignKey(entity = MonitoredApp.class,
-                        parentColumns = "uid",
-                        childColumns = "application_id",
                         onDelete = ForeignKey.NO_ACTION)
         },
-        indices = {@Index(value = {"application_id"}), @Index(value = {"type_id"})})
+        indices = {@Index(value = {"type_id"})})
 public class Traffic {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
-    
+
     @ColumnInfo(name = "app_name")
     private String appName;
 
     @ColumnInfo(name = "timestamp")
-    private Date timestamp;
+    private long timestamp;
 
     @ColumnInfo(name = "received_data")
     private long rxBytes;
+
+    private long rxDifference;
+
+    private long txDifference;
+
+    private long rxAccumulate;
+
+    private long txAccumulate;
 
     @ColumnInfo(name = "transmitted_data")
     private long txBytes;
@@ -47,14 +50,18 @@ public class Traffic {
     @ColumnInfo(name = "type_id")
     private int typeId;
 
-    public Traffic(String appName ,Date timestamp, long rxBytes, long txBytes, long bucketExp, int appUid, int typeId) {
+    public Traffic(long timestamp, long rxBytes, long rxDifference, long txDifference, long rxAccumulate, long txAccumulate, long txBytes, long bucketExp, int appUid, String appName, int typeId) {
+        this.appName = appName;
         this.timestamp = timestamp;
         this.rxBytes = rxBytes;
+        this.rxDifference = rxDifference;
+        this.txDifference = txDifference;
+        this.rxAccumulate = rxAccumulate;
+        this.txAccumulate = txAccumulate;
         this.txBytes = txBytes;
         this.bucketExp = bucketExp;
         this.appUid = appUid;
         this.typeId = typeId;
-        this.appName = appName;
     }
 
     public String getAppName() {
@@ -69,7 +76,7 @@ public class Traffic {
         return id;
     }
 
-    public Date getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -91,5 +98,21 @@ public class Traffic {
 
     public int getTypeId() {
         return typeId;
+    }
+
+    public long getRxDifference() {
+        return rxDifference;
+    }
+
+    public long getTxDifference() {
+        return txDifference;
+    }
+
+    public long getRxAccumulate() {
+        return rxAccumulate;
+    }
+
+    public long getTxAccumulate() {
+        return txAccumulate;
     }
 }

@@ -23,10 +23,6 @@ public class TrafficRepository {
 
     // Traffic entity's methods
 
-    public List<Traffic> getTraffics() {
-        return trafficDb.trafficDao().getAllTrafficsSimple();
-    }
-
     public LiveData<List<Traffic>> getLiveTraffics() { return trafficDb.trafficDao().getAllTraffics(); }
 
     public void insertTraffic(final Traffic traffic) {
