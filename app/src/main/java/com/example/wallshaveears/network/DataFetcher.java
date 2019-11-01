@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,7 +78,7 @@ public class DataFetcher
                 extractDataFromBucket(listOfNetworkData, resolve, bucket);
             }
         }
-        Log.e("abetest", "extracted from: " + listOfNetworkData.size());
+        //Log.e("abetest", "extracted from: " + listOfNetworkData.size());
         // the new data gathered is subtracted the usage of older data. This way we can update every 5 minutes.
         return filterForRecentUsage(listOfNetworkData, oldData);
     }
