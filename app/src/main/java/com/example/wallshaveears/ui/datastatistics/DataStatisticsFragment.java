@@ -54,35 +54,35 @@ public class DataStatisticsFragment extends Fragment {
         List<Traffic> graphData = new ArrayList<>();
 
 
-        Date date = new Date(1570781692);
+        //Date date = new Date(1570781692);
+        long date = 1570781692;
+
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
 
 
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("Lasses Shady App", date, 5235, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("Lasses Shady App", date, 525, 23, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("Lasses Shady App", date, 5325, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
 
 
-        graphData.add(new Traffic("Lasses Shady App", date, 5235, 233, 101, 5, 5));
-        graphData.add(new Traffic("Lasses Shady App", date, 525, 23, 101, 5, 5));
-        graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5));
-        graphData.add(new Traffic("Lasses Shady App", date, 5325, 233, 101, 5, 5));
-        graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("Baloo", date, 25, 233, 1101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
 
 
-        graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5));
-        graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5));
-        graphData.add(new Traffic("Baloo", date, 25, 233, 1101, 5, 5));
-        graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5));
-        graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5));
-
-
-        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
-        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 1101, 5, 5));
-        graphData.add(new Traffic("RobertAnalytics", date, 5215, 1133, 1301, 5, 5));
-        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
-        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
+        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 1101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("RobertAnalytics", date, 5215, 1133, 1301, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
+        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5, 5, 101, 5, 1));
         /*
         graphData.add(new GraphData(10, "FlappyBird", 23, 901, 1570781992));
         graphData.add(new GraphData(10, "FlappyBird", 411, 11, 1570782292));

@@ -18,9 +18,6 @@ public interface TrafficDao {
     @Query("SELECT * FROM 'traffic_data'")
     LiveData<List<Traffic>> getAllTraffics();
 
-    @Query("SELECT * FROM 'traffic_data'")
-    List<Traffic> getAllTrafficsSimple();
-
     @Query("DELETE FROM 'traffic_data'")
     void deleteAll();
 }
