@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.telephony.TelephonyManager;
 
+import com.example.wallshaveears.database.entities.Traffic;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -30,7 +32,7 @@ public class DataFetcher
      * @param oldData supplied if you have old data. Leave null if no old data exists
      * @return list of every app and its data usage
      */
-    public ArrayList<NetworkData> getRecentData(int connectivityType, ArrayList<NetworkData> oldData)
+    public ArrayList<Traffic> getRecentData(int connectivityType, ArrayList<Traffic> oldData)
     {
         // run through every application on the phone
         // get in/out data from every app, and save in network data object
@@ -42,7 +44,7 @@ public class DataFetcher
         timeBeganFetching = System.currentTimeMillis();
 
         NetworkStatsManager manager = context.getSystemService(NetworkStatsManager.class);
-        ArrayList<NetworkData> listOfNetworkData = new ArrayList<>();
+        ArrayList<Traffic> listOfNetworkData = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);
@@ -85,24 +87,24 @@ public class DataFetcher
 
 
 
-    private void extractDataFromBucket(ArrayList<NetworkData> newData, ResolveInfo resolveInfo, NetworkStats.Bucket bucket)
+    private void extractDataFromBucket(ArrayList<Traffic> newData, ResolveInfo resolveInfo, NetworkStats.Bucket bucket)
     {
-        NetworkData data = new NetworkData();
+        Traffic data = new Traffic();
 
         data.setAppName(context.getPackageManager().getApplicationLabel(resolveInfo.activityInfo.applicationInfo).toString());
 
         data.setRxBytes(bucket.getRxBytes());
         data.setTxBytes(bucket.getTxBytes());
 
-        data.setTimeStamp(timeBeganFetching);
-        data.setBucketExpiration(bucket.getEndTimeStamp());
+        data.setTimestamp(timeBeganFetching);
+        data.setBucketExp(bucket.getEndTimeStamp());
 
-        data.setUid(resolveInfo.activityInfo.applicationInfo.uid);
+        data.setId(resolveInfo.activityInfo.applicationInfo.uid);
 
         newData.add(data);
     }
 
-    private ArrayList<NetworkData> filterForRecentUsage(ArrayList<NetworkData> newData, ArrayList<NetworkData> oldData)
+    private ArrayList<Traffic> filterForRecentUsage(ArrayList<Traffic> newData, ArrayList<Traffic> oldData)
     {
         if (oldData == null)
         {
@@ -111,17 +113,17 @@ public class DataFetcher
 
         //ArrayList<NetworkData> updatedData = new ArrayList<>();
 
-        for (NetworkData nData : newData)
+        for (Traffic nData : newData)
         {
-            for (NetworkData oData : oldData)
+            for (Traffic oData : oldData)
             {
-                if (nData.getUid() == oData.getUid())
+                if (nData.getId() == oData.getId())
                 {
                     nData.setRxDifference(nData.getRxBytes() - oData.getRxBytes());
                     nData.setTxDifference(nData.getTxBytes() - oData.getTxBytes());
 
-                    nData.setRxAccumulator(nData.getRxDifference() + oData.getRxAccumulator());
-                    nData.setTxAccumulator(nData.getTxDifference() + oData.getTxAccumulator());
+                    nData.setRxAccumulate(nData.getRxDifference() + oData.getRxAccumulate());
+                    nData.setTxAccumulate(nData.getTxDifference() + oData.getTxAccumulate());
                     //updatedData.add(subtractData(nData, oData));
                 }
             }
@@ -158,7 +160,7 @@ public class DataFetcher
         return context.getPackageManager().queryIntentActivities(i, 0);
     }
 
-    public ArrayList<NetworkData> init(int connectivityType)
+    public ArrayList<Traffic> init(int connectivityType)
     {
         return getRecentData(connectivityType, null);
     }

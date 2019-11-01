@@ -1,33 +1,32 @@
 package com.example.wallshaveears;
 
 import android.app.AppOpsManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.provider.Settings;
-import android.view.View;
+import android.view.Menu;
 
+import com.example.wallshaveears.network.FetchDataTask;
+import com.google.android.material.navigation.NavigationView;
+
+import java.util.concurrent.TimeUnit;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    public static int jobSchedulerId = 69;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,5 +79,16 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void startJobScheuler()
+    {
+        JobScheduler jobScheduler =
+                (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        jobScheduler.schedule(new JobInfo.Builder(jobSchedulerId,
+                new ComponentName(this, FetchDataTask.class))
+                .setMinimumLatency(TimeUnit.SECONDS.toMillis(5))
+                .build());
     }
 }
