@@ -6,8 +6,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import java.sql.Date;
-
 @Entity(tableName = "traffic_data",
         foreignKeys = {
                 @ForeignKey(entity = NetworkType.class,
@@ -90,6 +88,61 @@ public class Traffic {
 
     public long getBucketExp() {
         return bucketExp;
+    }
+
+    public void setAppName(String appName)
+    {
+        this.appName = appName;
+    }
+
+    public void setTimestamp(long timestamp)
+    {
+        this.timestamp = timestamp;
+    }
+
+    public void setRxBytes(long rxBytes)
+    {
+        this.rxBytes = rxBytes;
+    }
+
+    public void setTxBytes(long txBytes)
+    {
+        this.txBytes = txBytes;
+    }
+
+    public void setRxDifference(long rxDifference)
+    {
+        this.rxDifference = rxDifference;
+    }
+
+    public void setTxDifference(long txDifference)
+    {
+        this.txDifference = txDifference;
+    }
+
+    public void setRxAccumulate(long rxAccumulate)
+    {
+        this.rxAccumulate = rxAccumulate;
+    }
+
+    public void setTxAccumulate(long txAccumulate)
+    {
+        this.txAccumulate = txAccumulate;
+    }
+
+    public void setBucketExp(long bucketExp)
+    {
+        this.bucketExp = bucketExp;
+    }
+
+    public void setAppUid(int appUid)
+    {
+        this.appUid = appUid;
+    }
+
+    public void setTypeId(int typeId)
+    {
+        this.typeId = typeId;
     }
 
     public int getAppUid() {
