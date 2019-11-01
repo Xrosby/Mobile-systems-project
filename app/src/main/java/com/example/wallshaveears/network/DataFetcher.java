@@ -62,10 +62,10 @@ public class DataFetcher
 
 
 
-        for (ResolveInfo resolve : getAllAppsInfoWithIntent())
+        for (ResolveInfo appInfo : getAllAppsInfoWithIntent())
         {
             NetworkStats stats = manager.queryDetailsForUid(connectivityType, subscriberId,
-                    startTime, endTime, resolve.activityInfo.applicationInfo.uid);
+                    startTime, endTime, appInfo.activityInfo.applicationInfo.uid);
 
 
             NetworkStats.Bucket bucket = new NetworkStats.Bucket();
@@ -77,21 +77,20 @@ public class DataFetcher
             }
             if (bucket.getEndTimeStamp() != NO_BUCKET_AVAILABLE)
             {
-                extractDataFromBucket(listOfNetworkData, resolve, bucket);
+                extractDataFromBucket(listOfNetworkData, appInfo, bucket);
             }
         }
-        //Log.e("abetest", "extracted from: " + listOfNetworkData.size());
         // the new data gathered is subtracted the usage of older data. This way we can update every 5 minutes.
         return filterForRecentUsage(listOfNetworkData, oldData);
     }
 
 
 
-    private void extractDataFromBucket(ArrayList<Traffic> newData, ResolveInfo resolveInfo, NetworkStats.Bucket bucket)
+    private void extractDataFromBucket(ArrayList<Traffic> newData, ResolveInfo appInfo, NetworkStats.Bucket bucket)
     {
         Traffic data = new Traffic();
 
-        data.setAppName(context.getPackageManager().getApplicationLabel(resolveInfo.activityInfo.applicationInfo).toString());
+        data.setAppName(context.getPackageManager().getApplicationLabel(appInfo.activityInfo.applicationInfo).toString());
 
         data.setRxBytes(bucket.getRxBytes());
         data.setTxBytes(bucket.getTxBytes());
@@ -99,7 +98,7 @@ public class DataFetcher
         data.setTimestamp(timeBeganFetching);
         data.setBucketExp(bucket.getEndTimeStamp());
 
-        data.setId(resolveInfo.activityInfo.applicationInfo.uid);
+        data.setId(appInfo.activityInfo.applicationInfo.uid);
 
         newData.add(data);
     }
@@ -124,32 +123,10 @@ public class DataFetcher
 
                     nData.setRxAccumulate(nData.getRxDifference() + oData.getRxAccumulate());
                     nData.setTxAccumulate(nData.getTxDifference() + oData.getTxAccumulate());
-                    //updatedData.add(subtractData(nData, oData));
                 }
             }
         }
         return newData;
-    }
-
-    private NetworkData subtractData(NetworkData newData, NetworkData oldData)
-    {
-        // this method creates a new NetworkData object,
-        // and inserts the info from the newData argument.
-        // then it takes the difference of the data from the oldData object and the newData object.
-        // this gets us the difference in data usage from last time.
-        // this method should ONLY be used when we are dealing with data coming from the same bucket.
-
-        NetworkData returnData = new NetworkData();
-
-        returnData.setUid(newData.getUid());
-        returnData.setAppName(newData.getAppName());
-        returnData.setTimeStamp(newData.getTimeStamp());
-        returnData.setBucketExpiration(newData.getBucketExpiration());
-
-        returnData.setRxBytes(newData.getRxBytes() - oldData.getRxBytes());
-        returnData.setTxBytes(newData.getRxBytes() - oldData.getRxBytes());
-
-        return returnData;
     }
 
     private List<ResolveInfo> getAllAppsInfoWithIntent()
@@ -158,10 +135,5 @@ public class DataFetcher
         i.addCategory(Intent.CATEGORY_LAUNCHER);
 
         return context.getPackageManager().queryIntentActivities(i, 0);
-    }
-
-    public ArrayList<Traffic> init(int connectivityType)
-    {
-        return getRecentData(connectivityType, null);
     }
 }
