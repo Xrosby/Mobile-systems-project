@@ -1,9 +1,9 @@
 package com.example.wallshaveears.ui.datastatistics.graphutil;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.wallshaveears.database.entities.Traffic;
+import com.example.wallshaveears.ui.datastatistics.graphutil.conf.GraphConfigurations;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -59,19 +59,21 @@ public class BarGraph extends Graph {
         barData = new BarData(barDataSet);
         barChart.setData(barData);
         this.formatGraphAxis(barChart.getXAxis(), new YAxis[]{barChart.getAxisLeft(), barChart.getAxisRight()});
-
         barDataSet.setStackLabels(new String[]{"Transmitted", "Recieved"});
         barChart.invalidate();
 
     }
 
+
     private void formatGraphAxis(XAxis xAxis, YAxis[] yAxis) {
+        //TODO: This should ideally be part of barchart configurations
         this.formatYAxis(yAxis);
         this.formatXAxis(xAxis);
     }
 
 
     private void formatXAxis(XAxis xAxis) {
+        //TODO: This should ideally be part of barchart configurations
         xAxis.setGranularity(1f);
         xAxis.setDrawLabels(true);
         xAxis.setDrawAxisLine(false);
@@ -80,25 +82,22 @@ public class BarGraph extends Graph {
     }
 
     private void formatYAxis(YAxis[] yAxis) {
+        //TODO: This should ideally be part of barchart configurations
         Arrays.stream(yAxis).forEach(y ->{
             y.setDrawGridLines(false);
             y.setDrawAxisLine(false);
             y.setDrawLabels(false);
         });
-
-
     }
 
     private void setAppNameLabels(XAxis xAxis) {
         xAxis.setValueFormatter(new IndexAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                Log.e("LABELLIST: ", labelList.toString() + " FETCHED WITH VALUE: " + value);
-                return labelList.get((int) value-1);
+                return labelList.get((int)value -1);
             }
         });
     }
-
 
     private void prepareData() {
         this.sumData();
@@ -131,7 +130,8 @@ public class BarGraph extends Graph {
         transmittedBytes.forEach((tk, tv) -> {
             recievedBytes.forEach((rk, rv) -> {
                 if (tk.equals(rk)) {
-                    this.appAndByteMap.put(tk, new RXTXWrapper(rv, tv));
+                    String appName = tk;
+                    this.appAndByteMap.put(appName, new RXTXWrapper(rv, tv));
                 }
             });
 

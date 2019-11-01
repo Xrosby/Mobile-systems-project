@@ -3,6 +3,7 @@ package com.example.wallshaveears.ui.datastatistics.graphutil;
 import android.content.Context;
 
 import com.example.wallshaveears.database.entities.Traffic;
+import com.example.wallshaveears.ui.datastatistics.graphutil.conf.GraphConfigurations;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -97,7 +98,6 @@ public class PieGraph extends Graph {
         pieDataSet = new PieDataSet(pieEntries, "Data Leaks");
         pieData = new PieData(pieDataSet);
         GraphConfigurations.setPieChartConfigurations(pieChart, pieDataSet);
-        pieChart.getLegend().setTextColor(GraphConfigurations.labelColor);
         pieChart.setData(pieData);
         this.pieChart.invalidate();
     }

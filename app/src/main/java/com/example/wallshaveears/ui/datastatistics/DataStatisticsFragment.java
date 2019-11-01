@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.wallshaveears.R;
 import com.example.wallshaveears.database.entities.Traffic;
+import com.example.wallshaveears.ui.datastatistics.graphutil.AddEntry;
+import com.example.wallshaveears.ui.datastatistics.graphutil.DummyDataGenerator;
+import com.example.wallshaveears.ui.datastatistics.graphutil.Graph;
 import com.example.wallshaveears.ui.datastatistics.graphutil.GraphBuilder;
 import com.example.wallshaveears.ui.datastatistics.graphutil.GraphType;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -19,6 +22,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.Timer;
 
 public class DataStatisticsFragment extends Fragment {
 
@@ -45,8 +49,6 @@ public class DataStatisticsFragment extends Fragment {
 
     private void initPieChart(View root) {
         throw new UnsupportedOperationException("Pie chart is not in use");
-
-
     }
 
     private void initLineChart(View root) {
@@ -57,6 +59,12 @@ public class DataStatisticsFragment extends Fragment {
         if(lineChart != null) {
             lineChartContainer.addView(lineChart);
         }
+
+
+        Timer timer = new Timer();
+        timer.schedule(new AddEntry(lineChart, GraphType.LINE), 0, 200);
+
+
     }
 
 
@@ -71,62 +79,8 @@ public class DataStatisticsFragment extends Fragment {
     }
 
     private List<Traffic> getDummyData() {
-
-        // _______________________ DUMMY DATA FOR TESTING BARCHART __________________________________________________________________//
-        List<Traffic> graphData = new ArrayList<>();
-
-
-        Date date = new Date(1570781692);
-        long timeIncrement = 100000;
-
-
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("FlappyBird", date, 525, 233, 101, 5, 5));
-
-        date.setTime(1570781692);
-
-        graphData.add(new Traffic("Lasses Shady App", date, 735, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("Lasses Shady App", date, 321, 23, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("Lasses Shady App", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("Lasses Shady App", date, 125, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("Lasses Shady App", date, 73, 233, 101, 5, 5));
-
-        date.setTime(1570781692);
-
-        graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("Baloo", date, 25, 233, 1101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("Baloo", date, 525, 1233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("Baloo", date, 525, 233, 101, 5, 5));
-
-        date.setTime(1570781692);
-
-        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 1101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("RobertAnalytics", date, 5215, 1133, 1301, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
-        date.setTime(date.getTime() + timeIncrement);
-        graphData.add(new Traffic("RobertAnalytics", date, 525, 233, 101, 5, 5));
-
-
+        DummyDataGenerator ddg = new DummyDataGenerator();
+        List<Traffic> graphData = ddg.generateDummyData(50);
         return graphData;
     }
 }
