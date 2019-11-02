@@ -1,9 +1,10 @@
-package com.example.wallshaveears.ui.datastatistics.graphutil;
+package com.example.wallshaveears.graphutil.graphs;
 
 import android.content.Context;
 
 import com.example.wallshaveears.database.entities.Traffic;
-import com.example.wallshaveears.ui.datastatistics.graphutil.conf.GraphConfigurations;
+import com.example.wallshaveears.graphutil.RXTXWrapper;
+import com.example.wallshaveears.graphutil.conf.GraphConfigurations;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;

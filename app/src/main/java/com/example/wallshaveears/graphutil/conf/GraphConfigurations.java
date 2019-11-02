@@ -1,16 +1,13 @@
-package com.example.wallshaveears.ui.datastatistics.graphutil.conf;
+package com.example.wallshaveears.graphutil.conf;
 
 import android.graphics.Color;
-import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.Random;
 
@@ -63,27 +60,38 @@ public class GraphConfigurations {
 
     private static void configureLineChart(Chart chart) {
         LineChart lineChart = (LineChart) chart;
+        lineChart.setBackgroundColor(LineConfigs.backgroundColor);
+        lineChart.setBorderColor(LineConfigs.borderColor);
+        lineChart.setBorderWidth(LineConfigs.borderWidth);
         lineChart.getLegend().setWordWrapEnabled(true);
+        setLineChartDescription(lineChart);
+    }
+
+    private static void setLineChartDescription(LineChart chart) {
         Description des = new Description();
         des.setText(LineConfigs.legendDescription);
-        lineChart.setDescription(des);
+        chart.setDescription(des);
     }
+
     private static void configureLineDataSet(DataSet dataSet) {
         LineDataSet lineDataSet = (LineDataSet) dataSet;
         lineDataSet.setDrawCircles(LineConfigs.enablePoints);
-        lineDataSet.setColor(generateRandomColor(), 100);
+        lineDataSet.setColor(generateRandomColor(LineConfigs.rgbBounds), 100);
     }
+
+
+    //_________ SHARED CHART CONFIGURATIONS __________ //
 
     private static void setSharedConfigurations(DataSet dataSet, Chart chart) {
         dataSet.setValueTextColor(SharedChartConfigs.graphColor);
         dataSet.setValueTextSize(SharedChartConfigs.graphValueTextSize);
         chart.setLayoutParams(SharedChartConfigs.layoutParams);
     }
-    private static int generateRandomColor() {
+    private static int generateRandomColor(int[] rgbBounds) {
         Random rand = new Random();
-        int r = rand.nextInt(255);
-        int g = rand.nextInt(100);
-        int b = rand.nextInt(255);
+        int r = rand.nextInt(rgbBounds[0]);
+        int g = rand.nextInt(rgbBounds[1]);
+        int b = rand.nextInt(rgbBounds[2]);
         return Color.rgb(r, g, b);
     }
 

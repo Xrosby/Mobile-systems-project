@@ -1,4 +1,4 @@
-package com.example.wallshaveears.ui.datastatistics.graphutil.conf;
+package com.example.wallshaveears.graphutil.conf;
 
 import android.graphics.Color;
 

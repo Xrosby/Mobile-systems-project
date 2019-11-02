@@ -1,9 +1,9 @@
-package com.example.wallshaveears.ui.datastatistics.graphutil;
+package com.example.wallshaveears.graphutil.graphs;
 
 import android.content.Context;
 
 import com.example.wallshaveears.database.entities.Traffic;
-import com.example.wallshaveears.ui.datastatistics.graphutil.conf.GraphConfigurations;
+import com.example.wallshaveears.graphutil.conf.GraphConfigurations;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;

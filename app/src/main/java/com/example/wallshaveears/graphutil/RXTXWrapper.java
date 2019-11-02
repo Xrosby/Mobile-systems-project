@@ -1,4 +1,4 @@
-package com.example.wallshaveears.ui.datastatistics.graphutil;
+package com.example.wallshaveears.graphutil;
 
 public class RXTXWrapper implements Comparable<RXTXWrapper> {
 

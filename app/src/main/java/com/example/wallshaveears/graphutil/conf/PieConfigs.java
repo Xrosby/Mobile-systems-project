@@ -1,4 +1,4 @@
-package com.example.wallshaveears.ui.datastatistics.graphutil.conf;
+package com.example.wallshaveears.graphutil.conf;
 
 import android.graphics.Color;
 
@@ -9,4 +9,5 @@ public class PieConfigs {
     //Pie chart configurations
     public final static int[] pieColorTemplate = ColorTemplate.VORDIPLOM_COLORS;
     public final static int labelColor = Color.BLACK;
+    public final static String legendDescription = "Transmitted Bytes In KB";
 }

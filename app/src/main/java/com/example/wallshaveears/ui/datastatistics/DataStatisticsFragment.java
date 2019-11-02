@@ -11,16 +11,13 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.wallshaveears.R;
 import com.example.wallshaveears.database.entities.Traffic;
-import com.example.wallshaveears.ui.datastatistics.graphutil.AddEntry;
-import com.example.wallshaveears.ui.datastatistics.graphutil.DummyDataGenerator;
-import com.example.wallshaveears.ui.datastatistics.graphutil.Graph;
-import com.example.wallshaveears.ui.datastatistics.graphutil.GraphBuilder;
-import com.example.wallshaveears.ui.datastatistics.graphutil.GraphType;
+import com.example.wallshaveears.graphutil.AddEntry;
+import com.example.wallshaveears.graphutil.tests.DummyDataGenerator;
+import com.example.wallshaveears.graphutil.GraphBuilder;
+import com.example.wallshaveears.graphutil.GraphType;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
 
-import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 import java.util.Timer;
 

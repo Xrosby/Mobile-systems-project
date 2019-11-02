@@ -1,9 +1,7 @@
-package com.example.wallshaveears.ui.datastatistics.graphutil.conf;
+package com.example.wallshaveears.graphutil.conf;
 
 import android.graphics.Color;
 import android.widget.RelativeLayout;
-
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 public class SharedChartConfigs {
 
