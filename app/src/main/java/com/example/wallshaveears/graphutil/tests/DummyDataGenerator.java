@@ -42,7 +42,8 @@ public class DummyDataGenerator {
     private Traffic generateRandomTrafficObject(long dateIncrease, String appName, long randomRx, long randomTx) {
         Date date = new Date(1570781692);
         date.setTime(date.getTime() + dateIncrease);
-        return new Traffic(appName, date, randomRx, randomTx, 5,5,5);
+        long dateLong = date.getTime();
+        return new Traffic(appName, dateLong, randomRx, randomTx, 5,5,5,5, 5,5,5);
     }
 
 }
