@@ -64,7 +64,7 @@ public class Traffic {
 
     public Traffic()
     {
-        
+
     }
 
     public String getAppName() {

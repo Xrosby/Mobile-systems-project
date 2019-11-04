@@ -3,35 +3,56 @@ package com.example.wallshaveears.database;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.wallshaveears.database.daos.TrafficDao;
 import com.example.wallshaveears.database.entities.Traffic;
+import com.example.wallshaveears.network.INetworkDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
-public class TrafficRepository {
+public class TrafficRepository implements INetworkDatabase {
 
     private TrafficDatabase trafficDb;
-    private TrafficDao trafficDao;
 
     public TrafficRepository(Context context) {
-
         trafficDb = TrafficDatabase.getDatabase(context);
-        trafficDao = trafficDb.trafficDao();
     }
 
-    // Traffic entity's methods
+    @Override
+    public ArrayList<Traffic> getLatestTraffic() {
 
-    public LiveData<List<Traffic>> getLiveTraffics() { return trafficDb.trafficDao().getAllTraffics(); }
+        ArrayList<Traffic> latestTraffic = new ArrayList<>();
 
-    public void insertTraffic(final Traffic traffic) {
-        new AsyncTask<Void, Void, Void>() {
+        trafficDb.trafficDao().getAllTraffics().observe(null, new Observer<List<Traffic>>() {
             @Override
-            protected Void doInBackground(Void... voids) {
-                trafficDb.trafficDao().insert(traffic);
-                return null;
+            public void onChanged(@Nullable final List<Traffic> traffics) {
+                if(traffics.size() == 0) return;
+                latestTraffic.add(traffics.get(traffics.size() - 1));
             }
-        }.execute();
+        });
+        return latestTraffic;
+    }
+
+    @Override
+    public void submitNewData(ArrayList<Traffic> traffics) {
+        ListIterator iter = traffics.listIterator();
+
+        while (iter.hasNext()) {
+            Integer index = iter.nextIndex();
+            iter.next();
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    trafficDb.trafficDao().insert(traffics.get(index));
+                    return null;
+                }
+            }.execute();
+        }
     }
 }
