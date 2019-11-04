@@ -56,13 +56,11 @@ public class DataStatisticsFragment extends Fragment {
         if(lineChart != null) {
             lineChartContainer.addView(lineChart);
         }
-
-
         Timer timer = new Timer();
-        timer.schedule(new AddEntry(lineChart, GraphType.LINE), 0, 200);
-
-
+        timer.schedule(new AddEntry(lineChart), 0, 1000);
     }
+
+
 
 
     private void initBarChart(View root) {
@@ -77,7 +75,7 @@ public class DataStatisticsFragment extends Fragment {
 
     private List<Traffic> getDummyData() {
         DummyDataGenerator ddg = new DummyDataGenerator();
-        List<Traffic> graphData = ddg.generateDummyData(50);
+        List<Traffic> graphData = ddg.generateDummyData(100);
         return graphData;
     }
 }

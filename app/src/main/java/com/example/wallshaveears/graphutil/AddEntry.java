@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -17,21 +18,18 @@ import java.util.TimerTask;
 public class AddEntry extends TimerTask {
 
     private Chart chart;
-    private GraphType graphType;
     private Random random = new Random();
 
-    public AddEntry(Chart chart, GraphType graphType) {
+    public AddEntry(Chart chart) {
         this.chart = chart;
-        this.graphType = graphType;
     }
-
     @Override
     public void run() {
-        if(graphType == GraphType.BAR) {
+        if(chart instanceof HorizontalBarChart) {
             addBarEntry();
-        } else if(graphType == GraphType.PIE) {
+        } else if(chart instanceof PieChart) {
             addPieEntry();
-        } else if(graphType == GraphType.LINE) {
+        } else if(chart instanceof LineChart) {
             addLineEntry();
         }
     }
@@ -41,6 +39,7 @@ public class AddEntry extends TimerTask {
         LineChart chart = (LineChart)this.chart;
         for(int i = 0; i < chart.getLineData().getDataSetCount(); i++) {
             addLineChartEntry(chart, i);
+            setNewLineChartAxis(chart, i);
         }
         chart.notifyDataSetChanged();
         chart.invalidate();
@@ -56,7 +55,7 @@ public class AddEntry extends TimerTask {
         int min = ((datasetIndex+1) * 3) * 10;
         int max = ((datasetIndex+1) * 3) * 11;
         long randomRx = (long)random.nextInt(max) + min;
-        int count = lineChart.getLineData().getDataSetByIndex(datasetIndex).getEntryCount();
+        float count = lineChart.getXChartMax() + 0.2f;
         Entry entry = new Entry(count, randomRx);
         return entry;
     }
@@ -68,7 +67,7 @@ public class AddEntry extends TimerTask {
         ILineDataSet lineData = lineChart.getLineData().getDataSetByIndex(datasetIndex);
         float datasetMinimum = lineData.getXMin();
         float datasetMaximum = lineData.getXMax();
-        //lineData.removeFirst();
+        lineData.removeFirst();
         xAxis.setAxisMinimum(datasetMinimum);
         xAxis.setAxisMaximum(datasetMaximum);
     }
