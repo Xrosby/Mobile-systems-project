@@ -48,8 +48,10 @@ public class DataStatisticsFragment extends Fragment {
         throw new UnsupportedOperationException("Pie chart is not in use");
     }
 
+
     private void initLineChart(View root) {
         List<Traffic> graphData = this.getDummyData();
+
 
         LineChart lineChart = (LineChart) this.graphBuilder.createGraph(GraphType.LINE, graphData);
         RelativeLayout lineChartContainer  = (RelativeLayout) root.findViewById(R.id.line_chart_container);

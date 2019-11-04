@@ -65,6 +65,8 @@ public class PieGraph extends Graph {
 
     private long firstTimeStamp(String appName) {
         long firstTimeStamp = -1;
+        /*
+        TODO: Traffic model has benn changed - need to rewrite this
         try {
             firstTimeStamp = this.getGraphData()
                     .stream()
@@ -76,6 +78,7 @@ public class PieGraph extends Graph {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+         */
         return firstTimeStamp;
     }
 
