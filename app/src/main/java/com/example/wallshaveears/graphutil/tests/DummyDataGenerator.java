@@ -25,10 +25,8 @@ public class DummyDataGenerator {
         for(int i = 0; i < appNames.length; i++) {
             String appName = appNames[i];
             for(int j = 0; j < amount; j++) {
-
                 int min = ((i+1) * 3) * 10;
                 int max = ((i+1) * 3) * 11;
-
                 long randomRx = (long)random.nextInt(max) + min;
                 long randomTx = (long)random.nextInt(max) + min;
                 Traffic randomTraffic = generateRandomTrafficObject(dateIncrease, appName, randomRx, randomTx);
