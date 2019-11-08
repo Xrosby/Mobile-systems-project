@@ -1,14 +1,18 @@
 package com.example.wallshaveears;
 
+import android.Manifest;
 import android.app.AppOpsManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.wallshaveears.database.TrafficRepository;
 import com.example.wallshaveears.database.entities.NetworkType;
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     public static int jobSchedulerId = 69;
     private DataFetcher dataFetcher = new DataFetcher(this);
+    private Button jobButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +64,18 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        jobButton = findViewById(R.id.jobButton);
+        jobButton.setOnClickListener(view ->
+        {
+            stopJobScheduler();
+        });
+
         if(!specialPermissionGranted())
         {
             askForSpecialPermission();
 
         }
+        requestPhonePermissions();
 
         startJobScheuler();
     }
@@ -123,5 +135,21 @@ public class MainActivity extends AppCompatActivity {
                 new ComponentName(this, FetchDataTask.class))
                 .setMinimumLatency(TimeUnit.SECONDS.toMillis(5))
                 .build());
+    }
+
+    private void stopJobScheduler()
+    {
+        JobScheduler jobScheduler =
+                (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        jobScheduler.cancel(jobSchedulerId);
+    }
+
+    private void requestPhonePermissions()
+    {
+        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 20);
+        }
     }
 }
