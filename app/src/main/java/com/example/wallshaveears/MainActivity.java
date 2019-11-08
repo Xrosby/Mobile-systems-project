@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        jobButton = findViewById(R.id.jobButton);
-        jobButton.setOnClickListener(view ->
-        {
-            stopJobScheduler();
-        });
+//        jobButton = findViewById(R.id.jobButton);
+//        jobButton.setOnClickListener(view ->
+//        {
+//            stopJobScheduler();
+//        });
 
         if(!specialPermissionGranted())
         {
