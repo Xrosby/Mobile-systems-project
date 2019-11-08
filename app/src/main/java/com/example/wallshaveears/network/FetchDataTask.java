@@ -9,6 +9,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 
 import com.example.wallshaveears.MainActivity;
+import com.example.wallshaveears.database.TrafficRepository;
 import com.example.wallshaveears.database.entities.Traffic;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class FetchDataTask extends JobService
 {
-    private INetworkDatabase networkDatabase = new TempClass();
+    private INetworkDatabase networkDatabase = new TrafficRepository(this);
 
     public FetchDataTask()
     {

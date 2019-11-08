@@ -12,6 +12,7 @@ import android.view.Menu;
 
 import com.example.wallshaveears.database.TrafficRepository;
 import com.example.wallshaveears.database.entities.Traffic;
+import com.example.wallshaveears.network.DataFetcher;
 import com.example.wallshaveears.network.FetchDataTask;
 import com.google.android.material.navigation.NavigationView;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     public static int jobSchedulerId = 69;
+    private DataFetcher dataFetcher = new DataFetcher(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        if(!specialPermissionGranted())
+        {
+            askForSpecialPermission();
+        }
 
     }
 
@@ -86,6 +93,20 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        startJobScheuler();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        //stopJobScheduler();
     }
 
     public void startJobScheuler()
