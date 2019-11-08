@@ -59,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
         if(!specialPermissionGranted())
         {
             askForSpecialPermission();
+
         }
+
+        startJobScheuler();
 
     }
 
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume()
     {
         super.onResume();
-        startJobScheuler();
+        //startJobScheuler();
     }
 
     @Override

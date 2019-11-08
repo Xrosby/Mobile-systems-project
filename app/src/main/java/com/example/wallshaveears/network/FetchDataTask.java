@@ -17,10 +17,11 @@ import java.util.concurrent.TimeUnit;
 
 public class FetchDataTask extends JobService
 {
-    private INetworkDatabase networkDatabase = new TrafficRepository(this);
+    private INetworkDatabase networkDatabase;
 
     public FetchDataTask()
     {
+        this.networkDatabase = new TrafficRepository(getApplicationContext());
     }
 
     @Override
