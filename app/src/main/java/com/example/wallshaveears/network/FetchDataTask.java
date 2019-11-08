@@ -21,12 +21,16 @@ public class FetchDataTask extends JobService
 
     public FetchDataTask()
     {
-        this.networkDatabase = new TrafficRepository(getApplicationContext());
     }
 
     @Override
     public boolean onStartJob(JobParameters params)
     {
+        if (networkDatabase == null)
+        {
+            networkDatabase = new TrafficRepository(this);
+        }
+
         DataFetcher dataFetcher = new DataFetcher(this);
         ArrayList<Traffic> oldData = networkDatabase.getLatestTraffic();
         ArrayList<Traffic> recentData = dataFetcher.getRecentData(ConnectivityManager.TYPE_MOBILE, oldData);
