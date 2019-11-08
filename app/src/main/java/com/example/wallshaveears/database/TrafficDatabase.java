@@ -1,6 +1,7 @@
 package com.example.wallshaveears.database;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -34,16 +35,40 @@ public abstract class TrafficDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             TrafficDatabase.class, "traffic_db")
                             .fallbackToDestructiveMigration()
-                            .addCallback(new Callback() {
-                                @Override
-                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                                    super.onOpen(db);
-                                }
-                            })
+                            .addCallback(roomCallback)
                             .build();
                 }
             }
         }
         return INSTANCE;
+    }
+
+    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+
+            new PopulateDbAsyncTask(INSTANCE).execute();
+        }
+
+        @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+        }
+    };
+
+    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
+        private NetworkTypeDao networkDao;
+
+        private PopulateDbAsyncTask(TrafficDatabase db) {
+            networkDao = db.networkTypeDao();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            NetworkType networkType = new NetworkType("4G");
+            networkDao.insert(networkType);
+            return null;
+        }
     }
 }

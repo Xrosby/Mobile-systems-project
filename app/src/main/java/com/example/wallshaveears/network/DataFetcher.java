@@ -99,6 +99,7 @@ public class DataFetcher
         data.setBucketExp(bucket.getEndTimeStamp());
 
         data.setId(appInfo.activityInfo.applicationInfo.uid);
+        data.setTypeId(1);
 
         newData.add(data);
     }
