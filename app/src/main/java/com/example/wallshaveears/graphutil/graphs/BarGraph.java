@@ -29,7 +29,6 @@ public class BarGraph extends Graph {
     private BarDataSet barDataSet;
     private BarData barData;
     private List<BarEntry> barEntries;
-    private List<String> labelList;
 
     public BarGraph(List<Traffic> graphData, Context context) {
         super(graphData, context);
@@ -50,7 +49,6 @@ public class BarGraph extends Graph {
         });
     }
 
-
     @Override
     public void initChart() {
         this.initEntries();
@@ -62,7 +60,6 @@ public class BarGraph extends Graph {
         this.formatGraphAxis(barChart.getXAxis(), new YAxis[]{barChart.getAxisLeft(), barChart.getAxisRight()});
         barDataSet.setStackLabels(new String[]{"Transmitted", "Recieved"});
         barChart.invalidate();
-
     }
 
 
@@ -75,6 +72,8 @@ public class BarGraph extends Graph {
 
     private void formatXAxis(XAxis xAxis) {
         //TODO: This should ideally be part of barchart configurations
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelRotationAngle(30);
         xAxis.setGranularity(1f);
         xAxis.setDrawLabels(true);
         xAxis.setDrawAxisLine(false);
@@ -85,6 +84,12 @@ public class BarGraph extends Graph {
     private void formatYAxis(YAxis[] yAxis) {
         //TODO: This should ideally be part of barchart configurations
         Arrays.stream(yAxis).forEach(y ->{
+            y.setValueFormatter(new IndexAxisValueFormatter(){
+              @Override
+              public String getFormattedValue(float value) {
+                  return value + "kb";
+              }
+            });
             y.setDrawGridLines(false);
             y.setDrawAxisLine(false);
             y.setDrawLabels(false);
@@ -93,9 +98,10 @@ public class BarGraph extends Graph {
 
     private void setAppNameLabels(XAxis xAxis) {
         xAxis.setValueFormatter(new IndexAxisValueFormatter() {
+            ArrayList<String> labels =  new ArrayList<>(appAndByteMap.keySet());
             @Override
             public String getFormattedValue(float value) {
-                return labelList.get((int)value -1);
+                return labels.get((int)value -1);
             }
         });
     }
@@ -103,11 +109,6 @@ public class BarGraph extends Graph {
     private void prepareData() {
         this.sumData();
         this.sortData();
-        this.createLabelList();
-    }
-
-    private void createLabelList() {
-        this.labelList = appAndByteMap.keySet().stream().collect(Collectors.toList());
     }
 
     private Map<String, Long> sumTransmittedBytes() {
@@ -137,7 +138,6 @@ public class BarGraph extends Graph {
             });
 
         });
-
     }
 
     private void sortData() {

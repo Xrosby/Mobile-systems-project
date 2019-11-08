@@ -1,6 +1,9 @@
 package com.example.wallshaveears.graphutil.conf;
 
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.text.Layout;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
@@ -22,16 +25,16 @@ public class GraphConfigurations {
     }
     private static void configureBarDataSet(DataSet dataSet) {
         dataSet.setColors(BarConfigs.barColorTemplate);
+        dataSet.setValueTextSize(7f);
     }
     private static void configureBarChart(Chart chart) {
         BarChart barChart = (BarChart) chart;
+        barChart.animateY(750);
         barChart.setFitBars(BarConfigs.fitBars);
         Description des = new Description();
         des.setText(BarConfigs.legendDescription);
         barChart.setDescription(des);
     }
-
-
 
 
     // ______________ PIE CHART CONFIGURATIONS ____________________//

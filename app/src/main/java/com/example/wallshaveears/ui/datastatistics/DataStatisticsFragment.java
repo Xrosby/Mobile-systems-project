@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.wallshaveears.R;
+import com.example.wallshaveears.database.TrafficRepository;
 import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.graphutil.AddEntry;
 import com.example.wallshaveears.graphutil.tests.DummyDataGenerator;
@@ -25,6 +26,7 @@ public class DataStatisticsFragment extends Fragment {
 
     private DataStatisticsViewModel dataStatisticsViewModel;
     private GraphBuilder graphBuilder;
+    private TrafficRepository trafficRepository;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class DataStatisticsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_datastatistics, container, false);
 
+        this.trafficRepository = new TrafficRepository(getContext());
         this.initCharts(root);
 
         return root;
@@ -66,7 +69,8 @@ public class DataStatisticsFragment extends Fragment {
 
 
     private void initBarChart(View root) {
-        List<Traffic> graphData = this.getDummyData();
+       // List<Traffic> graphData = this.getDummyData();
+        List<Traffic> graphData = this.trafficRepository.getAllTraffic();
 
         HorizontalBarChart barChart = (HorizontalBarChart) this.graphBuilder.createGraph(GraphType.BAR, graphData);
         RelativeLayout barChartContainer = (RelativeLayout) root.findViewById(R.id.bar_chart_container);

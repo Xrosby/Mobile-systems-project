@@ -80,4 +80,26 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
             }.execute();
         }
     }
+
+    public List<Traffic> getAllTraffic() {
+        ArrayList<Traffic> allTraffic = new ArrayList<>();
+        AppCompatActivity appContext = null;
+
+        if (context instanceof AppCompatActivity)
+        {
+            appContext = (AppCompatActivity) context;
+        }
+        else
+        {
+            return allTraffic;
+        }
+        trafficDb.trafficDao().getAllTraffics().observe(appContext, new Observer<List<Traffic>>() {
+            @Override
+            public void onChanged(@Nullable final List<Traffic> traffics) {
+                if(traffics.size() == 0) return;
+                allTraffic.addAll(traffics);
+            }
+        });
+        return allTraffic;
+    }
 }
