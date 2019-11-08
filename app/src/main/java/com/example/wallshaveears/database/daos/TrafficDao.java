@@ -20,4 +20,7 @@ public interface TrafficDao {
 
     @Query("DELETE FROM 'traffic_data'")
     void deleteAll();
+
+    @Query("SELECT * FROM 'traffic_data'")
+    List<Traffic> getAllTrafficsSimple();
 }

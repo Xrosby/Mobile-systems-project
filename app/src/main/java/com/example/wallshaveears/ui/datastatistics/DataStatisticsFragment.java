@@ -35,7 +35,7 @@ public class DataStatisticsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_datastatistics, container, false);
 
-        this.trafficRepository = new TrafficRepository(getContext());
+        this.trafficRepository = new TrafficRepository(root.getContext());
         this.initCharts(root);
 
         return root;

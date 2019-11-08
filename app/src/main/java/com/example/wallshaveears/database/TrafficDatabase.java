@@ -2,10 +2,12 @@ package com.example.wallshaveears.database;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.wallshaveears.database.daos.MonitoredAppDao;
 import com.example.wallshaveears.database.daos.NetworkTypeDao;
@@ -15,7 +17,7 @@ import com.example.wallshaveears.database.entities.NetworkType;
 import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.database.helpers.DateConverter;
 
-@Database(entities = {MonitoredApp.class, NetworkType.class, Traffic.class}, version = 1, exportSchema = false)
+@Database(entities = {MonitoredApp.class, NetworkType.class, Traffic.class}, version = 2, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class TrafficDatabase extends RoomDatabase {
 
@@ -32,6 +34,12 @@ public abstract class TrafficDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             TrafficDatabase.class, "traffic_db")
                             .fallbackToDestructiveMigration()
+                            .addCallback(new Callback() {
+                                @Override
+                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                                    super.onOpen(db);
+                                }
+                            })
                             .build();
                 }
             }

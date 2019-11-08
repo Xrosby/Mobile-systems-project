@@ -43,7 +43,7 @@ public class DummyDataGenerator {
         Date date = new Date(1570781692);
         date.setTime(date.getTime() + dateIncrease);
         long dateLong = date.getTime();
-        return new Traffic(appName, dateLong, randomRx, randomTx, 5,5,5,5, 5,5,5);
+        return new Traffic(appName, dateLong, randomRx, randomTx, 5,5,5,5, 5,5,1);
     }
 
 }

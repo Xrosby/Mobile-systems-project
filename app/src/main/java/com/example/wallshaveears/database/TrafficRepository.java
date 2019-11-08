@@ -14,6 +14,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 
 import com.example.wallshaveears.MainActivity;
 import com.example.wallshaveears.database.daos.TrafficDao;
+import com.example.wallshaveears.database.entities.NetworkType;
 import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.network.INetworkDatabase;
 
@@ -81,25 +82,53 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
         }
     }
 
-    public List<Traffic> getAllTraffic() {
-        ArrayList<Traffic> allTraffic = new ArrayList<>();
-        AppCompatActivity appContext = null;
-
-        if (context instanceof AppCompatActivity)
+    public void deleteAllTraffics() {
+        Thread thread = new Thread()
         {
-            appContext = (AppCompatActivity) context;
-        }
-        else
-        {
-            return allTraffic;
-        }
-        trafficDb.trafficDao().getAllTraffics().observe(appContext, new Observer<List<Traffic>>() {
-            @Override
-            public void onChanged(@Nullable final List<Traffic> traffics) {
-                if(traffics.size() == 0) return;
-                allTraffic.addAll(traffics);
+            public void run()
+            {
+                trafficDb.trafficDao().deleteAll();
             }
-        });
-        return allTraffic;
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void submitNewType(NetworkType type) {
+
+
+
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    trafficDb.networkTypeDao().insert(type);
+                    return null;
+                }
+            }.execute();
+
+    }
+
+    public List<Traffic> getAllTraffic() {
+        List<Traffic> list = new ArrayList<>();
+        Thread thread = new Thread()
+        {
+            public void run()
+            {
+                list.addAll(trafficDb.trafficDao().getAllTrafficsSimple());
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //List<Traffic> list = trafficDb.trafficDao().getAllTrafficsSimple();
+        return list;
     }
 }

@@ -11,13 +11,16 @@ import android.provider.Settings;
 import android.view.Menu;
 
 import com.example.wallshaveears.database.TrafficRepository;
+import com.example.wallshaveears.database.entities.NetworkType;
 import com.example.wallshaveears.database.entities.Traffic;
+import com.example.wallshaveears.graphutil.tests.DummyDataGenerator;
 import com.example.wallshaveears.network.DataFetcher;
 import com.example.wallshaveears.network.FetchDataTask;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.Nullable;
@@ -63,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         startJobScheuler();
-
     }
 
     @Override
