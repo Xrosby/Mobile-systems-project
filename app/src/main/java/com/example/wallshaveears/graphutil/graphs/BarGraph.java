@@ -43,9 +43,11 @@ public class BarGraph extends Graph {
         this.appAndByteMap.forEach((appName, bytes) -> {
             long recievedBytes = bytes.getRecievedBytes();
             long transmittedBytes = bytes.getTransmittedBytes();
-            BarEntry entry = new BarEntry(
-                    count.getAndIncrement(), new float[]{recievedBytes, transmittedBytes});
-            barEntries.add(entry);
+            if(count.get() < 6) {
+                BarEntry entry = new BarEntry(
+                        count.getAndIncrement(), new float[]{recievedBytes, transmittedBytes});
+                barEntries.add(entry);
+            }
         });
     }
 

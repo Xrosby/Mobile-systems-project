@@ -39,6 +39,7 @@ public class LineGraph extends Graph {
 
     }
 
+    //TODO: Only the top 5 data accumulations should be added to the graph
     private void addEntriesToList(List<String> appNames) {
         AtomicInteger count = new AtomicInteger(1);
         appNames.forEach(appName -> {
