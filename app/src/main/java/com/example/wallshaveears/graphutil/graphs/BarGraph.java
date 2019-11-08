@@ -115,14 +115,14 @@ public class BarGraph extends Graph {
         Map<String, Long> transmittedBytes = this.getGraphData()
                 .stream()
                 .collect(Collectors
-                        .groupingBy(Traffic::getAppName, Collectors.summingLong(Traffic::getTxBytes)));
+                        .groupingBy(Traffic::getAppName, Collectors.summingLong(Traffic::getTxAccumulate)));
         return transmittedBytes;
     }
 
     private Map<String, Long> sumRecievedBytes() {
         Map<String, Long> recievedBytes = this.getGraphData()
                 .stream()
-                .collect(Collectors.groupingBy(Traffic::getAppName, Collectors.summingLong(Traffic::getRxBytes)));
+                .collect(Collectors.groupingBy(Traffic::getAppName, Collectors.summingLong(Traffic::getRxAccumulate)));
         return recievedBytes;
     }
 

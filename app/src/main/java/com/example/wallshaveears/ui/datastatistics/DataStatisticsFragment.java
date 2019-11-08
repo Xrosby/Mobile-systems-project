@@ -55,14 +55,19 @@ public class DataStatisticsFragment extends Fragment {
     private void initLineChart(View root) {
         List<Traffic> graphData = this.getDummyData();
 
+        //List<Traffic> graphData = trafficRepository.getAllTraffic();
 
         LineChart lineChart = (LineChart) this.graphBuilder.createGraph(GraphType.LINE, graphData);
         RelativeLayout lineChartContainer  = (RelativeLayout) root.findViewById(R.id.line_chart_container);
         if(lineChart != null) {
             lineChartContainer.addView(lineChart);
         }
+        /*
+        TODO: This should use the getLatestTraffic method
         Timer timer = new Timer();
-        timer.schedule(new AddEntry(lineChart), 0, 1000);
+        timer.schedule(new AddEntry(lineChart, ArrayList<Traffic>), 0, 1000);
+
+         */
     }
 
 
