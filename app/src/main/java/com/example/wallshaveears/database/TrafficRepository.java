@@ -99,27 +99,23 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
 
     }
 
-    public void submitNewType(NetworkType type) {
+    public List<String> getAllForTest() {
 
-
-
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... voids) {
-                    trafficDb.networkTypeDao().insert(type);
-                    return null;
-                }
-            }.execute();
-
-    }
-
-    public List<Traffic> getAllTraffic() {
+        List<String> printOutDb = new ArrayList<>();
         List<Traffic> list = new ArrayList<>();
         Thread thread = new Thread()
         {
             public void run()
             {
                 list.addAll(trafficDb.trafficDao().getAllTrafficsSimple());
+
+                if(list.size() != 0) {
+                    for (int i = 0; i < list.size(); i++) {
+                        String dbRecord = "";
+                        dbRecord += list.get(i).getId() + "," + list.get(i).getAppName() + "," + list.get(i).getTimestamp() + "," + list.get(i).getRxBytes() + "," + list.get(i).getTxBytes() + "," + list.get(i).getRxDifference() + "," + list.get(i).getTxDifference() + "," + list.get(i).getRxAccumulate() + "," + list.get(i).getTxAccumulate() + "," + list.get(i).getBucketExp() + "," + list.get(i).getAppUid() + "," + list.get(i).getTypeId();
+                        printOutDb.add(dbRecord);
+                    }
+                }
             }
         };
         thread.start();
@@ -129,6 +125,27 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
             e.printStackTrace();
         }
         //List<Traffic> list = trafficDb.trafficDao().getAllTrafficsSimple();
+        return printOutDb;
+    }
+
+    public List<Traffic> getAllTraffic() {
+        List<Traffic> list = new ArrayList<>();
+        Thread thread = new Thread()
+        {
+            public void run()
+            {
+                list.addAll(trafficDb.trafficDao().getAllTrafficsSimple());
+
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //List<Traffic> list = trafficDb.trafficDao().getAllTrafficsSimple();
+
         return list;
     }
 }

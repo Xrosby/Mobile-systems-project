@@ -7,14 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "traffic_data",
-        foreignKeys = {
-                @ForeignKey(entity = NetworkType.class,
-                        parentColumns = "id",
-                        childColumns = "type_id",
-                        onDelete = ForeignKey.NO_ACTION)
-        },
-        indices = {@Index(value = {"type_id"})})
+@Entity(tableName = "traffic_data")
 public class Traffic {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
