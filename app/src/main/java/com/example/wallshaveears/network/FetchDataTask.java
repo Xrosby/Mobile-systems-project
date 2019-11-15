@@ -7,6 +7,7 @@ import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.widget.Toast;
 
 import com.example.wallshaveears.MainActivity;
 import com.example.wallshaveears.database.TrafficRepository;
@@ -36,6 +37,7 @@ public class FetchDataTask extends JobService
         ArrayList<Traffic> recentData = dataFetcher.getRecentData(ConnectivityManager.TYPE_MOBILE, oldData);
 
         networkDatabase.submitNewData(recentData);
+        Toast.makeText(this, "Fetching data...", Toast.LENGTH_LONG).show();
 
         scheduleRefresh();
 
