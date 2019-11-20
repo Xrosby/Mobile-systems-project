@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +60,7 @@ public class BarGraph extends Graph {
         this.initEntries();
         this.barChart = new HorizontalBarChart(this.getContext());
         barDataSet = new BarDataSet(barEntries, "Data flow");
+        barDataSet.setValueFormatter(new ByteValueFormatter());
         GraphConfigurations.setBarChartConfigurations(barChart, barDataSet);
         barData = new BarData(barDataSet);
         barChart.setData(barData);
@@ -89,12 +91,12 @@ public class BarGraph extends Graph {
     private void formatYAxis(YAxis[] yAxis) {
         //TODO: This should ideally be part of barchart configurations
         Arrays.stream(yAxis).forEach(y ->{
-            y.setValueFormatter(new IndexAxisValueFormatter(){
-              @Override
-              public String getFormattedValue(float value) {
-                  return value + "kb";
-              }
-            });
+//            y.setValueFormatter(new ValueFormatter(){
+//              @Override
+//              public String getFormattedValue(float value) {
+//                  return value + "kb";
+//              }
+//            });
             y.setDrawGridLines(false);
             y.setDrawAxisLine(false);
             y.setDrawLabels(false);
