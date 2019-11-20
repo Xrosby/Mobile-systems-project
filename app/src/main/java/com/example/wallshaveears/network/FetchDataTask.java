@@ -59,7 +59,7 @@ public class FetchDataTask extends JobService
 
         jobScheduler.schedule(new JobInfo.Builder(MainActivity.jobSchedulerId,
                 new ComponentName(this, FetchDataTask.class))
-                .setMinimumLatency(TimeUnit.SECONDS.toMillis(5))
+                .setMinimumLatency(TimeUnit.SECONDS.toMillis(Constants.JOB_INTERVAL))
                 .build());
     }
 }

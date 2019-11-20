@@ -175,8 +175,10 @@ public class Traffic {
 
     public String toString() {
         return  "Name: " + appName + "\n" +
-                "Uid: " + appUid + "\n" +
+                "AppUid: " + appUid + "\n" +
                 "Timestamp: " + new Date(timestamp).toString() + "\n" +
+                "RxBytes: " + humanReadableByteCount(rxBytes, true) + "\n" +
+                "TxBytes: " + humanReadableByteCount(txBytes, true) + "\n" +
                 "RxDiff: " + humanReadableByteCount(rxDifference, true) + "\n" +
                 "TxDiff: " + humanReadableByteCount(txDifference, true) + "\n" +
                 "RxAccu: " + humanReadableByteCount(rxAccumulate, true) + "\n" +

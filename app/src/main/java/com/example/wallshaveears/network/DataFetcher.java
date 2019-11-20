@@ -98,7 +98,7 @@ public class DataFetcher
         data.setTimestamp(timeBeganFetching);
         data.setBucketExp(bucket.getEndTimeStamp());
 
-        data.setId(appInfo.activityInfo.applicationInfo.uid);
+        data.setAppUid(appInfo.activityInfo.applicationInfo.uid);
         data.setTypeId(1);
 
         newData.add(data);

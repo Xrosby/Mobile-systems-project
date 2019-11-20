@@ -2,6 +2,7 @@ package com.example.wallshaveears.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner
 
     private TrafficDatabase trafficDb;
     private Context context;
+    private ArrayList<Traffic> latestTraffic;
 
     public TrafficRepository(Context context)
     {
@@ -44,33 +46,50 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner
     public ArrayList<Traffic> getLatestTraffic()
     {
 
-        List<Traffic> allData = trafficDb.trafficDao().getAllTrafficsSimple();
+//        List<Traffic> allData = trafficDb.trafficDao().getAllTrafficsSimple();
+//
+//        Set<String> appNames = allData.stream().map(p->{return p.getAppName();}).collect(Collectors.toSet());
 
-        Set<String> appNames = allData.stream().map(p->{return p.getAppName();}).collect(Collectors.toSet());
 
-
-
-        ArrayList<Traffic> latestTraffic = new ArrayList<>();
+        latestTraffic = new ArrayList<>();
         AppCompatActivity appContext = null;
 
-        if (context instanceof AppCompatActivity)
+        Thread thread = new Thread()
         {
-            appContext = (AppCompatActivity) context;
-        }
-        else
-        {
-            return latestTraffic;
-        }
-        trafficDb.trafficDao().getAllTraffics().observe(appContext, new Observer<List<Traffic>>()
-        {
-            @Override
-            public void onChanged(@Nullable final List<Traffic> traffics)
+            public void run()
             {
-                if (traffics.size() == 0) return;
-                latestTraffic.add(traffics.get(traffics.size() - 1));
+                latestTraffic = new ArrayList<>(trafficDb.trafficDao().getLatestTraffic());
             }
-        });
+        };
+        thread.start();
+        try
+        {
+            thread.join();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
         return latestTraffic;
+//
+//        if (context instanceof AppCompatActivity)
+//        {
+//            appContext = (AppCompatActivity) context;
+//        }
+//        else
+//        {
+//            return latestTraffic;
+//        }
+//        trafficDb.trafficDao().getAllTraffics().observe(appContext, new Observer<List<Traffic>>()
+//        {
+//            @Override
+//            public void onChanged(@Nullable final List<Traffic> traffics)
+//            {
+//                if (traffics.size() == 0) return;
+//                latestTraffic.add(traffics.get(traffics.size() - 1));
+//            }
+//        });
+//        return latestTraffic;
     }
 
     @Override

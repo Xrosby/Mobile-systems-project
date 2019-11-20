@@ -24,4 +24,6 @@ public interface TrafficDao {
     @Query("SELECT * FROM 'traffic_data'")
     List<Traffic> getAllTrafficsSimple();
 
+    @Query("SELECT *, MAX(timestamp) FROM 'traffic_data' GROUP BY application_id")
+    List<Traffic> getLatestTraffic();
 }
