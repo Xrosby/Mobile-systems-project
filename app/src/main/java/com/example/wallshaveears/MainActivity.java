@@ -18,6 +18,7 @@ import com.example.wallshaveears.database.TrafficRepository;
 import com.example.wallshaveears.database.entities.NetworkType;
 import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.graphutil.tests.DummyDataGenerator;
+import com.example.wallshaveears.network.Constants;
 import com.example.wallshaveears.network.DataFetcher;
 import com.example.wallshaveears.network.FetchDataTask;
 import com.google.android.material.navigation.NavigationView;
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
         jobScheduler.schedule(new JobInfo.Builder(jobSchedulerId,
                 new ComponentName(this, FetchDataTask.class))
-                .setMinimumLatency(TimeUnit.SECONDS.toMillis(5))
+                .setMinimumLatency(TimeUnit.SECONDS.toMillis(Constants.JOB_INTERVAL))
                 .build());
     }
 

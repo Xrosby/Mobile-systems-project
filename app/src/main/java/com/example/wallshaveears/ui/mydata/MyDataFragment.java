@@ -1,35 +1,50 @@
 package com.example.wallshaveears.ui.mydata;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wallshaveears.R;
+import com.example.wallshaveears.adapters.MyDataAdapter;
+import com.example.wallshaveears.database.TrafficRepository;
 
-public class MyDataFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-    private MyDataViewModel myDataViewModel;
+public class MyDataFragment extends Fragment
+{
+    private RecyclerView recyclerView;
+    private MyDataAdapter adapter;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        myDataViewModel =
-                ViewModelProviders.of(this).get(MyDataViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_mydata, container, false);
-        final TextView textView = root.findViewById(R.id.text_tools);
-        myDataViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+    //private MyDataViewModel myDataViewModel;
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        return inflater.inflate(R.layout.fragment_mydata, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        TrafficRepository repo = new TrafficRepository(this.getContext());
+        ArrayList<String> data = new ArrayList<>(repo.getAllForTest());
+        Log.e("Number of rows", data.size() + "");
+
+        recyclerView = view.findViewById(R.id.mydata_list);
+        adapter = new MyDataAdapter(data);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        adapter.notifyDataSetChanged();
+
+
     }
 }

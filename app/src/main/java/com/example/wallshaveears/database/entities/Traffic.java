@@ -7,14 +7,11 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "traffic_data",
-        foreignKeys = {
-                @ForeignKey(entity = NetworkType.class,
-                        parentColumns = "id",
-                        childColumns = "type_id",
-                        onDelete = ForeignKey.NO_ACTION)
-        },
-        indices = {@Index(value = {"type_id"})})
+import com.example.wallshaveears.MainActivity;
+
+import java.util.Date;
+
+@Entity(tableName = "traffic_data")
 public class Traffic {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -174,5 +171,27 @@ public class Traffic {
 
     public long getTxAccumulate() {
         return txAccumulate;
+    }
+
+    public String toString() {
+        return  "Name: " + appName + "\n" +
+                "AppUid: " + appUid + "\n" +
+                "Timestamp: " + new Date(timestamp).toString() + "\n" +
+                "RxBytes: " + humanReadableByteCount(rxBytes, true) + "\n" +
+                "TxBytes: " + humanReadableByteCount(txBytes, true) + "\n" +
+                "RxDiff: " + humanReadableByteCount(rxDifference, true) + "\n" +
+                "TxDiff: " + humanReadableByteCount(txDifference, true) + "\n" +
+                "RxAccu: " + humanReadableByteCount(rxAccumulate, true) + "\n" +
+                "TxAccu: " + humanReadableByteCount(txAccumulate, true) + "\n\n";
+
+    }
+
+    private String humanReadableByteCount(long bytes, boolean si)
+    {
+        int unit = si ? 1000 : 1024;
+        if (bytes < unit) return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
+        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
 }

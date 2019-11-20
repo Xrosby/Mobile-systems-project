@@ -18,7 +18,7 @@ import com.example.wallshaveears.database.entities.NetworkType;
 import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.database.helpers.DateConverter;
 
-@Database(entities = {MonitoredApp.class, NetworkType.class, Traffic.class}, version = 2, exportSchema = false)
+@Database(entities = {MonitoredApp.class, NetworkType.class, Traffic.class}, version = 3, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class TrafficDatabase extends RoomDatabase {
 
