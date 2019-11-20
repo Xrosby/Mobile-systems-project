@@ -23,4 +23,5 @@ public interface TrafficDao {
 
     @Query("SELECT * FROM 'traffic_data'")
     List<Traffic> getAllTrafficsSimple();
+
 }

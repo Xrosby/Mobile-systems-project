@@ -8,40 +8,47 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.OnLifecycleEvent;
 
-import com.example.wallshaveears.MainActivity;
-import com.example.wallshaveears.database.daos.TrafficDao;
-import com.example.wallshaveears.database.entities.NetworkType;
 import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.network.INetworkDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
-
-public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
+public class TrafficRepository implements INetworkDatabase, LifecycleOwner
+{
 
     private TrafficDatabase trafficDb;
     private Context context;
 
-    public TrafficRepository(Context context) {
+    public TrafficRepository(Context context)
+    {
         trafficDb = TrafficDatabase.getDatabase(context);
         this.context = context;
     }
 
+
     @NonNull
     @Override
-    public Lifecycle getLifecycle() {
+    public Lifecycle getLifecycle()
+    {
         return null;
     }
 
     @Override
-    public ArrayList<Traffic> getLatestTraffic() {
+    public ArrayList<Traffic> getLatestTraffic()
+    {
+
+        List<Traffic> allData = trafficDb.trafficDao().getAllTrafficsSimple();
+
+        Set<String> appNames = allData.stream().map(p->{return p.getAppName();}).collect(Collectors.toSet());
+
+
 
         ArrayList<Traffic> latestTraffic = new ArrayList<>();
         AppCompatActivity appContext = null;
@@ -54,10 +61,12 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
         {
             return latestTraffic;
         }
-        trafficDb.trafficDao().getAllTraffics().observe(appContext, new Observer<List<Traffic>>() {
+        trafficDb.trafficDao().getAllTraffics().observe(appContext, new Observer<List<Traffic>>()
+        {
             @Override
-            public void onChanged(@Nullable final List<Traffic> traffics) {
-                if(traffics.size() == 0) return;
+            public void onChanged(@Nullable final List<Traffic> traffics)
+            {
+                if (traffics.size() == 0) return;
                 latestTraffic.add(traffics.get(traffics.size() - 1));
             }
         });
@@ -65,16 +74,20 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
     }
 
     @Override
-    public void submitNewData(ArrayList<Traffic> traffics) {
+    public void submitNewData(ArrayList<Traffic> traffics)
+    {
         ListIterator iter = traffics.listIterator();
 
-        while (iter.hasNext()) {
+        while (iter.hasNext())
+        {
             Integer index = iter.nextIndex();
             iter.next();
 
-            new AsyncTask<Void, Void, Void>() {
+            new AsyncTask<Void, Void, Void>()
+            {
                 @Override
-                protected Void doInBackground(Void... voids) {
+                protected Void doInBackground(Void... voids)
+                {
                     trafficDb.trafficDao().insert(traffics.get(index));
                     return null;
                 }
@@ -82,7 +95,8 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
         }
     }
 
-    public void deleteAllTraffics() {
+    public void deleteAllTraffics()
+    {
         Thread thread = new Thread()
         {
             public void run()
@@ -91,15 +105,19 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
             }
         };
         thread.start();
-        try {
+        try
+        {
             thread.join();
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e)
+        {
             e.printStackTrace();
         }
 
     }
 
-    public List<String> getAllForTest() {
+    public List<String> getAllForTest()
+    {
 
         List<String> printOutDb = new ArrayList<>();
         List<Traffic> list = new ArrayList<>();
@@ -109,26 +127,32 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
             {
                 list.addAll(trafficDb.trafficDao().getAllTrafficsSimple());
 
-                if(list.size() != 0) {
-                    for (int i = 0; i < list.size(); i++) {
+                if (list.size() != 0)
+                {
+                    for (int i = 0; i < list.size(); i++)
+                    {
                         String dbRecord = "";
-                        dbRecord += list.get(i).getId() + "," + list.get(i).getAppName() + "," + list.get(i).getTimestamp() + "," + list.get(i).getRxBytes() + "," + list.get(i).getTxBytes() + "," + list.get(i).getRxDifference() + "," + list.get(i).getTxDifference() + "," + list.get(i).getRxAccumulate() + "," + list.get(i).getTxAccumulate() + "," + list.get(i).getBucketExp() + "," + list.get(i).getAppUid() + "," + list.get(i).getTypeId();
+                        dbRecord += list.get(i).toString();
                         printOutDb.add(dbRecord);
                     }
                 }
             }
         };
         thread.start();
-        try {
+        try
+        {
             thread.join();
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e)
+        {
             e.printStackTrace();
         }
         //List<Traffic> list = trafficDb.trafficDao().getAllTrafficsSimple();
         return printOutDb;
     }
 
-    public List<Traffic> getAllTraffic() {
+    public List<Traffic> getAllTraffic()
+    {
         List<Traffic> list = new ArrayList<>();
         Thread thread = new Thread()
         {
@@ -139,9 +163,12 @@ public class TrafficRepository implements INetworkDatabase, LifecycleOwner {
             }
         };
         thread.start();
-        try {
+        try
+        {
             thread.join();
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e)
+        {
             e.printStackTrace();
         }
         //List<Traffic> list = trafficDb.trafficDao().getAllTrafficsSimple();

@@ -23,7 +23,7 @@ public class MyDataAdapter extends RecyclerView.Adapter<MyDataAdapter.MyViewHold
         ArrayList<String> input = new ArrayList<>();
         for (String s : dataRows)
         {
-            if (s.split(",")[1].contentEquals("YouTube"))
+            if (s.contains("YouTube"))
             {
                 input.add(s);
             }

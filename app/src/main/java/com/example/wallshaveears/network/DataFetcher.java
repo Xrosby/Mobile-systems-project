@@ -117,7 +117,7 @@ public class DataFetcher
         {
             for (Traffic oData : oldData)
             {
-                if (nData.getId() == oData.getId())
+                if (nData.getAppUid() == oData.getAppUid())
                 {
                     nData.setRxDifference(nData.getRxBytes() - oData.getRxBytes());
                     nData.setTxDifference(nData.getTxBytes() - oData.getTxBytes());
