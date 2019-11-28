@@ -1,6 +1,7 @@
 package com.example.wallshaveears.graphutil.graphs;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.graphutil.RXTXWrapper;
@@ -15,9 +16,14 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -40,17 +46,21 @@ public class BarGraph extends Graph {
     public void initEntries() {
         this.barEntries = new ArrayList<>();
         AtomicInteger count = new AtomicInteger(1);
-        this.appAndByteMap.forEach((appName, bytes) -> {
-            long recievedBytes = bytes.getRecievedBytes();
-            long transmittedBytes = bytes.getTransmittedBytes();
+        NavigableMap<String, RXTXWrapper> navMap = appAndByteMap.descendingMap();
 
-                BarEntry entry = new BarEntry(
+
+        for (Map.Entry<String, RXTXWrapper> entry : navMap.entrySet()) {
+            if (count.get() <=  5) {
+                long recievedBytes = entry.getValue().getRecievedBytes();
+                long transmittedBytes = entry.getValue().getTransmittedBytes();
+
+                BarEntry barEntry = new BarEntry(
                         count.getAndIncrement(), new float[]{recievedBytes, transmittedBytes});
-                barEntries.add(entry);
+                barEntries.add(barEntry);
+            }
+        }
 
-        });
     }
-
 
 
 
@@ -78,7 +88,6 @@ public class BarGraph extends Graph {
     private void formatXAxis(XAxis xAxis) {
         //TODO: This should ideally be part of barchart configurations
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(30);
         xAxis.setGranularity(1f);
         xAxis.setDrawLabels(true);
         xAxis.setDrawAxisLine(false);
@@ -88,12 +97,12 @@ public class BarGraph extends Graph {
 
     private void formatYAxis(YAxis[] yAxis) {
         //TODO: This should ideally be part of barchart configurations
-        Arrays.stream(yAxis).forEach(y ->{
-            y.setValueFormatter(new IndexAxisValueFormatter(){
-              @Override
-              public String getFormattedValue(float value) {
-                  return value + "kb";
-              }
+        Arrays.stream(yAxis).forEach(y -> {
+            y.setValueFormatter(new IndexAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return value + "kb";
+                }
             });
             y.setDrawGridLines(false);
             y.setDrawAxisLine(false);
@@ -103,10 +112,11 @@ public class BarGraph extends Graph {
 
     private void setAppNameLabels(XAxis xAxis) {
         xAxis.setValueFormatter(new IndexAxisValueFormatter() {
-            ArrayList<String> labels =  new ArrayList<>(appAndByteMap.keySet());
+            ArrayList<String> labels = new ArrayList<>(appAndByteMap.keySet());
+
             @Override
             public String getFormattedValue(float value) {
-                return labels.get((int)value -1);
+                return labels.get((int) value - 1);
             }
         });
     }

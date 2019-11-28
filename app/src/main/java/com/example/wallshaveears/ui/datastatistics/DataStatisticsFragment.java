@@ -62,12 +62,10 @@ public class DataStatisticsFragment extends Fragment {
         if(lineChart != null) {
             lineChartContainer.addView(lineChart);
         }
-        /*
-        TODO: This should use the getLatestTraffic method
-        Timer timer = new Timer();
-        timer.schedule(new AddEntry(lineChart, ArrayList<Traffic>), 0, 1000);
 
-         */
+        Timer timer = new Timer();
+        timer.schedule(new AddEntry(lineChart), 0, 1000);
+
     }
 
 
