@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,6 +70,7 @@ public class BarGraph extends Graph {
         this.initEntries();
         this.barChart = new HorizontalBarChart(this.getContext());
         barDataSet = new BarDataSet(barEntries, "Data flow");
+        barDataSet.setValueFormatter(new ByteValueFormatter());
         GraphConfigurations.setBarChartConfigurations(barChart, barDataSet);
         barData = new BarData(barDataSet);
         barChart.setData(barData);
