@@ -7,6 +7,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -18,6 +19,7 @@ import com.example.wallshaveears.database.TrafficRepository;
 import com.example.wallshaveears.database.entities.NetworkType;
 import com.example.wallshaveears.database.entities.Traffic;
 import com.example.wallshaveears.graphutil.tests.DummyDataGenerator;
+import com.example.wallshaveears.network.ChargingReceiver;
 import com.example.wallshaveears.network.Constants;
 import com.example.wallshaveears.network.DataFetcher;
 import com.example.wallshaveears.network.FetchDataTask;
@@ -79,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
         requestPhonePermissions();
 
         startJobScheuler();
+
+        ChargingReceiver receiver = new ChargingReceiver();
+        registerReceiver(receiver, new IntentFilter(Intent.ACTION_POWER_CONNECTED));
+        registerReceiver(receiver, new IntentFilter(Intent.ACTION_POWER_DISCONNECTED));
     }
 
     @Override
