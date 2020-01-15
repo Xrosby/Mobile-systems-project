@@ -20,10 +20,6 @@ public class FetchDataTask extends JobService
 {
     private INetworkDatabase networkDatabase;
 
-    public FetchDataTask()
-    {
-    }
-
     @Override
     public boolean onStartJob(JobParameters params)
     {

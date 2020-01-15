@@ -34,13 +34,6 @@ public class DataFetcher
      */
     public ArrayList<Traffic> getRecentData(int connectivityType, ArrayList<Traffic> oldData)
     {
-        // run through every application on the phone
-        // get in/out data from every app, and save in network data object
-
-
-        // ********************************************************************************************************
-        // ********************************************************************************************************
-
         timeBeganFetching = System.currentTimeMillis();
 
         NetworkStatsManager manager = context.getSystemService(NetworkStatsManager.class);
@@ -48,18 +41,12 @@ public class DataFetcher
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);
-
         long startTime = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(8);
         long endTime = calendar.getTimeInMillis();
 
         TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
         @SuppressLint("MissingPermission") String subscriberId = tManager.getSubscriberId();
-
-        // ********************************************************************************************************
-        // ********************************************************************************************************
-
-
 
 
         for (ResolveInfo appInfo : getAllAppsInfoWithIntent())

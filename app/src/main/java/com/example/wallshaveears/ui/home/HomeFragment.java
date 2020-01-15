@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.wallshaveears.MainActivity;
 import com.example.wallshaveears.R;
+import com.example.wallshaveears.network.ChargingReceiver;
 
 public class HomeFragment extends Fragment {
 
@@ -38,6 +39,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View view)
             {
                 stopJobScheduler(HomeFragment.this.getContext());
+//                ChargingReceiver receiver = new ChargingReceiver();
+//                receiver.sendTrafficToServer(HomeFragment.this.getContext());
             }
         });
 

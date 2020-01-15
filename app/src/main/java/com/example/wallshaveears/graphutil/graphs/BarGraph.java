@@ -81,16 +81,7 @@ public class BarGraph extends Graph
         int counter = 0;
         for (Map.Entry<String, RXTXWrapper> entry : navMap.entrySet())
         {
-            if (counter > navMap.size() - 5)
-            {
-                long recievedBytes = entry.getValue().getRecievedBytes();
-                long transmittedBytes = entry.getValue().getTransmittedBytes();
-
-                BarEntry barEntry = new BarEntry(
-                        count.getAndIncrement(), new float[]{recievedBytes, transmittedBytes});
-                barEntries.add(barEntry);
-            }
-//            if (count.get() <= 5)
+//            if (counter > navMap.size() - 5)
 //            {
 //                long recievedBytes = entry.getValue().getRecievedBytes();
 //                long transmittedBytes = entry.getValue().getTransmittedBytes();
@@ -99,6 +90,15 @@ public class BarGraph extends Graph
 //                        count.getAndIncrement(), new float[]{recievedBytes, transmittedBytes});
 //                barEntries.add(barEntry);
 //            }
+            if (count.get() <= 5)
+            {
+                long recievedBytes = entry.getValue().getRecievedBytes();
+                long transmittedBytes = entry.getValue().getTransmittedBytes();
+
+                BarEntry barEntry = new BarEntry(
+                        count.getAndIncrement(), new float[]{recievedBytes, transmittedBytes});
+                barEntries.add(barEntry);
+            }
             counter++;
         }
 
